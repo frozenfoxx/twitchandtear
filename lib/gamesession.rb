@@ -18,6 +18,7 @@ class GameSession
     
     # Begin command loop
     Thread.new do
+      # FIXME: currently this is taking from stdin. This needs to be changed to the Twitch handler object, but for testing will work to verify the ACS scripting
       ARGF.each_line do |line|
         stop && exit if line =~ /quit/
         request = line.split(/\s+/)
