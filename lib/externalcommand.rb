@@ -39,7 +39,7 @@ class ExternalCommand < GameEvent
       return "echo Not enough arguments"
     else
       transCommand = request.shift
-      return "pukename \"Arganium #{@commands[transCommand]}\" #{request.join(" ")}"
+      return "pukename \"TwitchAndTear #{@commands[transCommand]}\" #{request.join(" ")}"
     end
   end
 end
