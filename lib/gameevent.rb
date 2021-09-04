@@ -2,7 +2,7 @@
 class GameEvent
   def intialize
     # List of valid commands
-    @commands = Hash.new
+    @commands = Array.new
   end
 
   attr_reader :commands
