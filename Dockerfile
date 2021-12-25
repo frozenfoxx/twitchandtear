@@ -15,8 +15,11 @@ ENV APPDIR="/usr/src/app" \
 # Copy app source
 COPY . .
 
+# Install packages
+RUN npm install
+
 # Expose listen port
 EXPOSE 8888
 
 # Launch
-ENTRYPOINT [ "node" ]
+ENTRYPOINT [ "node index.js" ]
