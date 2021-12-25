@@ -71,6 +71,7 @@
     "unbox-primitive": "^1.0.1",
     "unpipe": "^1.0.0",
     "which-boxed-primitive": "^1.0.2",
+    "winston": "^3.3.3",
     "ws": "^8.4.0"
   },
   "scripts": {
