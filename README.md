@@ -1,5 +1,7 @@
 # twitchandtear
 
+[![Build Status](https://cloud.drone.io/api/badges/frozenfoxx/twitchandtear/status.svg?ref=refs/heads/main)](https://cloud.drone.io/frozenfoxx/twitchandtear)
+
 [Twitch](https://twitch.tv/) integration for [Zandronum](https://zandronum.com/).
 
 # Features
@@ -14,6 +16,8 @@ Planned:
 * Redeem bits to spawn powerups
 * Redeem bits to spawn monsters
 * Notification in game for subs
+* Spawn powerups during a hype train
+* Configurable options for enemies/maps/mods via bits
 
 # Requirements
 
@@ -21,3 +25,5 @@ Planned:
 * [Zandronum](https://zandronum.com/)
 
 # Usage
+
+## Docker
