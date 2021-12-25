@@ -22,4 +22,4 @@ RUN npm install
 EXPOSE 8888
 
 # Launch
-ENTRYPOINT [ "node index.js" ]
+ENTRYPOINT [ "node", "index.js" ]
