@@ -16,14 +16,14 @@ steps:
       repo:
         from_secret: ci_registry_image
   - name: build-and-publish-full
-      image: plugins/docker
-      settings:
-        tags:
-          - full
-        dockerfile: Dockerfile.full
-        username:
-          from_secret: ci_registry_user
-        password:
-          from_secret: ci_registry_password
-        repo:
-          from_secret: ci_registry_image
+    image: plugins/docker
+    settings:
+      tags:
+        - full
+      dockerfile: Dockerfile.full
+      username:
+        from_secret: ci_registry_user
+      password:
+        from_secret: ci_registry_password
+      repo:
+        from_secret: ci_registry_image
