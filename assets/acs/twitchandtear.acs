@@ -50,6 +50,24 @@ script "TwitchAndTear SpawnEnemy" (str MonstType) net
   } until (Spawn(MonstType, x, y, z, 0, angle));
 }
 
+// This script allows spawning of followers in a level
+script "TwitchAndTear SpawnFollower" (str FollowerName) net
+{
+  str class "Follower";
+
+  // Attempt a spawn, but if it fails from collision try to do so again
+  do {
+    delay(1);
+    int x = GetActorX(0) - 50.0;
+    int y = GetActorY(0) - 50.0;
+    int z = GetActorZ(0);
+    int angle = GetActorAngle(0) >> 8;
+
+  } until (Spawn(class, x, y, z, 0, angle));
+
+  PrintBold(s:FollowerName, s:" has joined the fray!");
+}
+
 // This script allows spawning of PowerUps at given spawners in a level
 // PowerUpType: the item to spawn
 script "TwitchAndTear SpawnPowerUp" (str PowerUpType) net
