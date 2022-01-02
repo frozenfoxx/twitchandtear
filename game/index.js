@@ -6,28 +6,33 @@ const spawn = require('cross-spawn')
 const which = require('which')
 
 // lookup the server binary
-var gameExe = which.sync('zandronum-server')
+const gameExe = which.sync('zandronum-server')
+
+// retrieve arguments, ignoring the first two
+const cliArgs = process.argv.slice(2)
 
 // retrieve environment variables
 const envVars = {
     DOOMWADDIR: process.env.DOOMWADDIR || '/wads'
 }
 
-function launch(args) {
-    logger.info("Launching zandronum-server...")
-    const gameServer = spawn(
-        gameExe,
-        args,
-        {
-            env: {
-                DOOMWADDIR: envVars.DOOMWADDIR
-            },
-            stdio: 'inherit',
-            stdout: 'inherit'
-        }
-    )
-}
+// launch gameServer
+const gameServer = spawn(
+    gameExe,
+    cliArgs,
+    {
+        env: {
+            DOOMWADDIR: envVars.DOOMWADDIR
+        },
+        stdio: "inherit",
+        stdout: "inherit"
+    }
+)
+
+gameServer.on('exit', function(code, signal) {
+    logger.info("Game server exited with " + `code ${code} and signal ${signal}`)
+})
 
 module.exports = {
-    launch
+    gameServer
 }
