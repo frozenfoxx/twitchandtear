@@ -64,6 +64,7 @@
     "safer-buffer": "^2.1.2",
     "setprototypeof": "^1.1.1",
     "side-channel": "^1.0.4",
+    "split2": "^4.1.0",
     "statuses": "^1.5.0",
     "string.prototype.trimend": "^1.0.4",
     "string.prototype.trimstart": "^1.0.4",
