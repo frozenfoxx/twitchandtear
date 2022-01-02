@@ -2,6 +2,7 @@
 
 // required libraries
 const logger = require('../config/logger')
+const split2 = require('split2')
 const spawn = require('cross-spawn')
 const which = require('which')
 
@@ -24,11 +25,16 @@ const gameServer = spawn(
         env: {
             DOOMWADDIR: envVars.DOOMWADDIR
         },
-        stdio: "inherit",
-        stdout: "inherit"
+        stdio: "pipe"
     }
 )
 
+// Parse the server output
+gameServer.stdout.pipe(split2()).on('data', (data) => {
+    logger.verbose(data)
+})
+
+// on exit, dump a message about what happened
 gameServer.on('exit', function(code, signal) {
     logger.info("Game server exited with " + `code ${code} and signal ${signal}`)
 })
