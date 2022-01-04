@@ -25,7 +25,11 @@ const gameServer = spawn(
         env: {
             DOOMWADDIR: envVars.DOOMWADDIR
         },
-        stdio: "pipe"
+        stdio: [
+            "inherit", //stdin
+            "pipe",    //stdout
+            "pipe"     //stderr
+        ]
     }
 )
 
