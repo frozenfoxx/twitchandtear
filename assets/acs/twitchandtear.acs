@@ -37,7 +37,7 @@ script "TwitchAndTear LevelStats" UNLOADING net
 
 // This script allows spawning of enemies in a level
 // MonstType: the monster to spawn
-script "TwitchAndTear SpawnEnemy" (str MonstType) net
+script "TwitchAndTear SpawnEnemy" (int MonstType) net
 {
   // Attempt a spawn, but if it fails from collision try to do so again
   do {
@@ -51,7 +51,8 @@ script "TwitchAndTear SpawnEnemy" (str MonstType) net
 }
 
 // This script allows spawning of followers in a level
-script "TwitchAndTear SpawnFollower" (str FollowerName) net
+// FollowerName: the name of the follower to spawn
+script "TwitchAndTear SpawnFollower" (int FollowerName) net
 {
   str class "Follower";
 
@@ -70,7 +71,7 @@ script "TwitchAndTear SpawnFollower" (str FollowerName) net
 
 // This script allows spawning of PowerUps at given spawners in a level
 // PowerUpType: the item to spawn
-script "TwitchAndTear SpawnPowerUp" (str PowerUpType) net
+script "TwitchAndTear SpawnPowerUp" (int PowerUpType) net
 {
   // Attempt a spawn, but if it fails from collision try to do so again
   do {
@@ -91,7 +92,7 @@ script "TwitchAndTear CheckSecrets" OPEN
 
   while (newsecretcount <= oldsecretcount)
   {
-    delay(2);
+    delay(4);
     newsecretcount = GetLevelInfo(LEVELINFO_FOUND_SECRETS);
   }
 
