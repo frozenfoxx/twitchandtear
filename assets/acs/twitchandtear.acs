@@ -54,7 +54,7 @@ script "TwitchAndTear SpawnEnemy" (int MonstType) net
 // FollowerName: the name of the follower to spawn
 script "TwitchAndTear SpawnFollower" (int FollowerName) net
 {
-  str class "Follower";
+  str class = "Follower";
 
   // Attempt a spawn, but if it fails from collision try to do so again
   do {
