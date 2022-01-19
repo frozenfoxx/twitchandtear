@@ -1,4 +1,4 @@
-# zandromon
+# twitchandtear
 
 [![Build Status](https://cloud.drone.io/api/badges/frozenfoxx/zandromon/status.svg?ref=refs/heads/main)](https://cloud.drone.io/frozenfoxx/zandromon)
 
