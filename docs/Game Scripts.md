@@ -5,21 +5,21 @@ There are a number of scripts that allow you to control the game state.
 ## CheckSecrets
 
 * **Description**: announces when a Secret is found.
-* **Invocation**: `pukename "TwitchAndTear CheckSecrets"`
+* **Invocation**: `pukename "Zandromon CheckSecrets"`
 * **Trigger**: immediately after level is first loaded.
 * **Output**: `"Secret found!"`
 
 ## EnteredGame
 
 * **Description**: player enters the game announcement.
-* **Invocation**: `pukename "TwitchAndTear EnteredGame"`
+* **Invocation**: `pukename "Zandromon EnteredGame"`
 * **Trigger**: on player entering the map.
 * **Output**: `[Player Name] has entered the game.`
 
 ## LevelStats
 
 * **Description**: end of level stats.
-* **Invocation**: `pukename "TwitchAndTear LevelStats"`
+* **Invocation**: `pukename "Zandromon LevelStats"`
 * **Trigger**: after level exit but before next level loads.
 * **Output**:
 
@@ -33,34 +33,34 @@ There are a number of scripts that allow you to control the game state.
 ## PlayerDied
 
 * **Description**: player death announcement.
-* **Invocation**: `pukename "TwitchAndTear PlayerDied"`
+* **Invocation**: `pukename "Zandromon PlayerDied"`
 * **Trigger**: on player death.
 * **Output**: `[Player Name] has died`
 
 ## SpawnEnemy
 
 * **Description**: spawns a monster.
-* **Invocation**: `pukename "TwitchAndTear SpawnEnemy [SpawnID]"`
+* **Invocation**: `pukename "Zandromon SpawnEnemy [SpawnID]"`
 * **Trigger**: on demand.
 * **Output**: `"A monster has been summoned!"`
 
 ## SpawnFollower
 
 * **Description**: spawns a follower.
-* **Invocation**: `pukename "TwitchAndTear SpawnFollower"`
+* **Invocation**: `pukename "Zandromon SpawnFollower"`
 * **Trigger**: on demand.
 * **Output**: `"A follower has been summoned!"`
 
 ## SpawnPowerUp
 
 * **Description**: spawns a .
-* **Invocation**: `pukename "TwitchAndTear SpawnPowerUp [SpawnID]"`
+* **Invocation**: `pukename "Zandromon SpawnPowerUp [SpawnID]"`
 * **Trigger**: on demand.
 * **Output**: `"PowerUp Spawned!"`
 
 ## Welcome
 
 * **Description**: player enters the game announcement.
-* **Invocation**: `pukename "TwitchAndTear Welcome"`
+* **Invocation**: `pukename "Zandromon Welcome"`
 * **Trigger**: immediately after level is first loaded.
 * **Output**: `TwitchAndTear loaded.`
