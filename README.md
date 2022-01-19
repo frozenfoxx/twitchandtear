@@ -4,7 +4,7 @@
 
 [Twitch](https://twitch.tv/) integration for [Zandronum](https://zandronum.com/).
 
-Docker Hub: [https://hub.docker.com/r/frozenfoxx/zandromon](https://hub.docker.com/r/frozenfoxx/twitchandtear)
+Docker Hub: [https://hub.docker.com/r/frozenfoxx/twitchandtear](https://hub.docker.com/r/frozenfoxx/twitchandtear)
 
 # Features
 
