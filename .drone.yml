@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: zandromon
+name: twitchandtear
 steps:
   - name: build-and-publish-slim
     image: plugins/docker
