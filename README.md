@@ -1,10 +1,10 @@
 # twitchandtear
 
-[![Build Status](https://cloud.drone.io/api/badges/frozenfoxx/zandromon/status.svg?ref=refs/heads/main)](https://cloud.drone.io/frozenfoxx/zandromon)
+[![Build Status](https://cloud.drone.io/api/badges/frozenfoxx/twitchandtear/status.svg?ref=refs/heads/main)](https://cloud.drone.io/frozenfoxx/twitchandtear)
 
 [Twitch](https://twitch.tv/) integration for [Zandronum](https://zandronum.com/).
 
-Docker Hub: [https://hub.docker.com/r/frozenfoxx/zandromon](https://hub.docker.com/r/frozenfoxx/zandromon)
+Docker Hub: [https://hub.docker.com/r/frozenfoxx/zandromon](https://hub.docker.com/r/frozenfoxx/twitchandtear)
 
 # Features
 
