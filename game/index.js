@@ -3,44 +3,55 @@
 // required libraries
 const logger = require('../config/logger')
 const split2 = require('split2')
-const spawn = require('cross-spawn')
-const which = require('which')
-
-// lookup the server binary
-const gameExe = which.sync('zandronum-server')
+const rcon = require('rcon')
 
 // retrieve arguments, ignoring the first two
 const cliArgs = process.argv.slice(2)
 
 // retrieve environment variables
 const envVars = {
-    DOOMWADDIR: process.env.DOOMWADDIR || '/wads'
+    RCONHOST: process.env.RCONHOST || 'localhost',
+    RCONPASSWORD: process.env.RCONPASSWORD || '',
+    RCONPORT: process.env.RCONPORT || 10666
 }
 
-// launch gameServer
-const gameServer = spawn(
-    gameExe,
-    cliArgs,
+// connect to gameServer
+const gameServer = rcon(
+    envVars.RCONHOST,
+    envVars.RCONPORT,
+    envVars.RCONPASSWORD,
     {
-        env: {
-            DOOMWADDIR: envVars.DOOMWADDIR
-        },
-        stdio: [
-            "inherit", //stdin
-            "pipe",    //stdout
-            "pipe"     //stderr
-        ]
+        tcp: false
     }
 )
 
-// Parse the server output
-gameServer.stdout.pipe(split2()).on('data', (data) => {
-    logger.verbose(data)
-})
+var authenticated = false
+var queuedCommands = []
 
-// on exit, dump a message about what happened
-gameServer.on('exit', function(code, signal) {
-    logger.info("Game server exited with " + `code ${code} and signal ${signal}`)
+gameServer.connect()
+
+gameServer.on('auth', function() {
+  console.log("Authenticated");
+  authenticated = true;
+
+  // You must wait until this event is fired before sending any commands,
+  // otherwise those commands will fail.
+  //
+  // This example buffers any commands sent before auth finishes, and sends
+  // them all once the connection is available.
+
+  for (var i = 0; i < queuedCommands.length; i++) {
+    conn.send(queuedCommands[i])
+  }
+  queuedCommands = []
+
+}).on('response', function(str) {
+  console.log("Response: " + str)
+}).on('error', function(err) {
+  console.log("Error: " + err)
+}).on('end', function() {
+  console.log("Connection closed")
+  process.exit()
 })
 
 module.exports = {

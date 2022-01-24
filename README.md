@@ -24,7 +24,6 @@ Planned:
 # Requirements
 
 * A Twitch [app](https://dev.twitch.tv/console/apps/create)
-* [Zandronum](https://zandronum.com/)
 
 # Usage
 

@@ -6,5 +6,5 @@ const logger = require('./config/logger')
 const twitch = require('./twitch')
 
 // logic
-logger.info('Launching game server...')
+logger.info('Connecting to game server...')
 const game = require('./game')
