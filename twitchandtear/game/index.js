@@ -21,6 +21,7 @@ const gameServer = rcon(
     envVars.RCONPORT,
     envVars.RCONPASSWORD,
     {
+        challenge: true,
         tcp: false
     }
 )
@@ -41,15 +42,20 @@ gameServer.on('auth', function() {
   // them all once the connection is available.
 
   for (var i = 0; i < queuedCommands.length; i++) {
-    conn.send(queuedCommands[i])
+    gameServer.send(queuedCommands[i])
   }
   queuedCommands = []
+})
 
-}).on('response', function(str) {
+gameServer.on('response', function(str) {
   console.log("Response: " + str)
-}).on('error', function(err) {
+})
+
+gameServer.on('error', function(err) {
   console.log("Error: " + err)
-}).on('end', function() {
+})
+
+gameServer.on('end', function() {
   console.log("Connection closed")
   process.exit()
 })
