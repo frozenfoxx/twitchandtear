@@ -32,7 +32,7 @@ RUN apt-get install -y ${BUILD_DEPS} ${APP_DEPS}
 
 # Set up Zandronum
 RUN mkdir -p /root/.config/zandronum
-COPY conf/zandronum.ini /root/.config/zandronum/
+COPY config/zandronum.ini /root/.config/zandronum/
 COPY scripts/install_zandronum.sh /tmp/
 RUN /tmp/install_zandronum.sh
 
