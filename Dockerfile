@@ -37,7 +37,7 @@ COPY scripts/install_zandronum.sh /tmp/
 RUN /tmp/install_zandronum.sh
 
 # Set up Node
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - && \
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
   apt-get install -y nodejs
 
 # Copy app source
