@@ -28,7 +28,7 @@ RUN apt-get update && \
     apt-get upgrade -y
 
 # Install packages
-RUN apt-get install -y ${BUILD_DEPS} ${APP_DEPS}}
+RUN apt-get install -y ${BUILD_DEPS} ${APP_DEPS}
 
 # Set up Zandronum
 RUN mkdir -p /root/.config/zandronum
