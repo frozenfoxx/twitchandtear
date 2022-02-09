@@ -44,7 +44,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
 COPY ./twitchandtear/ .
 
 # Install packages
-RUN npm install
+RUN npm -g install
 
 # Clean up unnecessary packages
 RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
