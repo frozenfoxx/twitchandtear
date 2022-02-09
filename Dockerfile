@@ -11,14 +11,14 @@ ENV APPDIR="/usr/src/app" \
   APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn \
   BUILD_DEPS="curl build-essential git gnupg software-properties-common wget" \
   DEBIAN_FRONTEND=noninteractive \
-  DISPLAY=:0.0 \
+  DISPLAY=0 \
   DISPLAY_WIDTH=1280 \
   DISPLAY_HEIGHT=720 \
   DOOMWADDIR='/wads' \
-  NODE_ENV="production" \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US.UTF-8 \
   LC_ALL=C.UTF-8 \
+  NODE_ENV="production" \
   NPM_CONFIG_LOGLEVEL="info" \
   NPM_CONFIG_PREFIX="/home/node/.npm-global" \
   PATH="$PATH:/home/node/.npm-global/bin"
@@ -49,9 +49,6 @@ RUN npm install
 # Clean up unnecessary packages
 RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
   rm -rf /var/lib/apt/lists/*
-
-# Expose listen port
-EXPOSE 8888
 
 # Launch
 ENTRYPOINT [ "node", "index.js" ]

@@ -2,64 +2,61 @@
 
 // required libraries
 const logger = require('../config/logger')
+const spawn = require('cross-spawn')
 const split2 = require('split2')
-const rcon = require('rcon')
+const which = require('which')
+const Xvfb = require('xvfb')
 
-// retrieve arguments, ignoring the first two
-const cliArgs = process.argv.slice(2)
+// lookup the server binary
+const gameExe = which.sync('zandronum')
 
 // retrieve environment variables
 const envVars = {
-    RCONHOST: process.env.RCONHOST || 'localhost',
-    RCONPASSWORD: process.env.RCONPASSWORD || '',
-    RCONPORT: process.env.RCONPORT || 10666
+  DISPLAY: process.env.DISPLAY || '0',
+  DOOMWADDIR: envVars.DOOMWADDIR || '/wads',
+  TARGETHOST: process.env.TARGETHOST || 'localhost',
+  TARGETPORT: process.env.TARGETPORT || 10666,
+  RCONPASSWORD: process.env.RCONPASSWORD || ''
 }
 
-// connect to gameServer
-const gameServer = rcon(
-    envVars.RCONHOST,
-    envVars.RCONPORT,
-    envVars.RCONPASSWORD,
-    {
-        challenge: true,
-        tcp: false
-    }
+// start the Xvfb
+const xvfb = new Xvfb(envVars.DISPLAY)
+xvfb.startSync()
+
+// launch game
+const game = spawn(
+  gameExe,
+  [
+    "-connect",
+    `${envVars.TARGETHOST}:${envVars.TARGETPORT}`
+  ],
+  {
+    env: {
+      envVars
+    },
+    stdio: [
+      "inherit", //stdin
+      "pipe",    //stdout
+      "pipe"     //stderr
+    ]
+  }
 )
 
-var authenticated = false
-var queuedCommands = []
-
-gameServer.connect()
-
-gameServer.on('auth', function() {
-  console.log("Authenticated");
-  authenticated = true;
-
-  // You must wait until this event is fired before sending any commands,
-  // otherwise those commands will fail.
-  //
-  // This example buffers any commands sent before auth finishes, and sends
-  // them all once the connection is available.
-
-  for (var i = 0; i < queuedCommands.length; i++) {
-    gameServer.send(queuedCommands[i])
-  }
-  queuedCommands = []
+// Parse the game output
+game.stdout.pipe(split2()).on('data', (data) => {
+  logger.verbose(data)
 })
 
-gameServer.on('response', function(str) {
-  console.log("Response: " + str)
+game.stderr.pipe(split2()).on('data', (data) => {
+  logger.verbose(data)
 })
 
-gameServer.on('error', function(err) {
-  console.log("Error: " + err)
-})
-
-gameServer.on('end', function() {
-  console.log("Connection closed")
-  process.exit()
+// on exit, dump a message about what happened
+game.on('exit', function(code, signal) {
+  logger.info(`Game exited with code ${code} and signal ${signal}`)
+  xvfb.stopSync()
 })
 
 module.exports = {
-    gameServer
+  game
 }
