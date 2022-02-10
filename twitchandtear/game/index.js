@@ -2,7 +2,7 @@
 
 // required libraries
 const logger = require('../config/logger')
-const spawn = require('cross-spawn')
+const spawn = require('child-process')
 const split2 = require('split2')
 const which = require('which')
 
