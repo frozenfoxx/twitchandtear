@@ -18,6 +18,8 @@ const envVars = {
   RCONPASSWORD: process.env.RCONPASSWORD || ''
 }
 
+logger.info("Got into game")
+
 // launch game
 const game = spawn(
   gameExe,

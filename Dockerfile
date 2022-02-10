@@ -5,9 +5,9 @@ FROM ubuntu:20.04
 LABEL maintainer="FrozenFOXX <frozenfoxx@churchoffoxx.net>"
 
 # Variables
-WORKDIR /usr/src/app
+WORKDIR /app
 ENV APPDIR="/usr/src/app" \
-  APP_DEPS="libglu1-mesa libgtk2.0 net-tools socat x11vnc xvfb" \
+  APP_DEPS="libglu1-mesa libgtk2.0 net-tools socat x11vnc xdotool xvfb" \
   APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn \
   BUILD_DEPS="curl build-essential git gnupg software-properties-common wget" \
   DEBIAN_FRONTEND=noninteractive \
@@ -49,7 +49,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
 COPY ./twitchandtear/ .
 
 # Install packages
-RUN npm -g install
+RUN npm install
 
 # Clean up unnecessary packages
 RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
