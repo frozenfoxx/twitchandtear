@@ -3,7 +3,7 @@
 'use strict'
 
 const logger = require('./config/logger')
-const spawn = require('child-process')
+const spawn = require('child_process')
 const which = require('which')
 
 // logic
