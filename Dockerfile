@@ -21,7 +21,10 @@ ENV APPDIR="/usr/src/app" \
   NODE_ENV="production" \
   NPM_CONFIG_LOGLEVEL="info" \
   NPM_CONFIG_PREFIX="/home/node/.npm-global" \
-  PATH="$PATH:/home/node/.npm-global/bin"
+  PATH="${PATH}:/home/node/.npm-global/bin" \
+  RCONPASSWORD='' \
+  TARGETHOST='localhost' \
+  TARGETPORT=10666
 
 # Upgrade the system
 RUN apt-get update && \
