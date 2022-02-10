@@ -3,8 +3,15 @@
 'use strict'
 
 const logger = require('./config/logger')
-const twitch = require('./twitch')
+const spawn = require('cross-spawn')
+const which = require('which')
 
 // logic
 logger.info('Connecting to game server...')
 const game = require('./game')
+
+logger.info('Connecting to Twitch...')
+const twitch = require('./twitch')
+
+// lookup xdotool
+const xdotool = which.sync('xdotool')
