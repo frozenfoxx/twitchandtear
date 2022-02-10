@@ -27,14 +27,16 @@ ENV APPDIR="/usr/src/app" \
 RUN apt-get update && \
     apt-get upgrade -y
 
+# Install scripts
+COPY scripts/ /usr/local/bin/
+
 # Install packages
 RUN apt-get install -y ${BUILD_DEPS} ${APP_DEPS}
 
 # Set up Zandronum
 RUN mkdir -p /root/.config/zandronum
 COPY config/zandronum.ini /root/.config/zandronum/
-COPY scripts/install_zandronum.sh /tmp/
-RUN /tmp/install_zandronum.sh
+RUN /usr/local/bin/install_zandronum.sh
 
 # Set up Node
 RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
@@ -51,4 +53,4 @@ RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
   rm -rf /var/lib/apt/lists/*
 
 # Launch
-ENTRYPOINT [ "node", "index.js" ]
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]

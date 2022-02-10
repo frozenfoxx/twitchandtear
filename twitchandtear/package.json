@@ -76,8 +76,7 @@
     "which-boxed-primitive": "^1.0.2",
     "winston": "^3.3.3",
     "ws": "^8.4.0",
-    "xdotool": "^1.0.55",
-    "xvfb": "^0.4.0"
+    "xdotool": "^1.0.55"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
