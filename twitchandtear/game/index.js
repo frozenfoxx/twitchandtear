@@ -11,14 +11,12 @@ const gameExe = which.sync('zandronum')
 
 // retrieve environment variables
 const envVars = {
-  DISPLAY: process.env.DISPLAY || '0',
+  DISPLAY: process.env.DISPLAY || ':0',
   DOOMWADDIR: process.env.DOOMWADDIR || '/wads',
   TARGETHOST: process.env.TARGETHOST || 'localhost',
   TARGETPORT: process.env.TARGETPORT || 10666,
   RCONPASSWORD: process.env.RCONPASSWORD || ''
 }
-
-logger.info("Got into game")
 
 // launch game
 const game = spawn(

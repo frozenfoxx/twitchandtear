@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Variables
-DISPLAY=":${DISPLAY:-'0'}"
+DISPLAY="${DISPLAY:-':0'}"
 VNCPORT=${VNCPORT:-'5900'}
 
 # Logic
