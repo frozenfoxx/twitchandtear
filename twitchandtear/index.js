@@ -7,9 +7,6 @@ const spawn = require('child_process')
 const which = require('which')
 
 // logic
-logger.info('Connecting to game server...')
-const game = require('./game')
-
 logger.info('Connecting to Twitch...')
 const twitch = require('./twitch')
 

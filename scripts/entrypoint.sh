@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
 
 # Variables
-DISPLAY="${DISPLAY:-':0'}"
-VNCPORT=${VNCPORT:-'5900'}
+DOOMWADDIR=${DOOMWADDIR:-'/wads'}
+TARGETHOST=${TARGETHOST:-'localhost'}
+TARGETPORT=${TARGETPORT:-'10666'}
 
 # Logic
-Xvfb ${DISPLAY} &
-x11vnc -display ${DISPLAY} -rfbport ${VNCPORT} &
-node index.js $@
+## Run supervisor
+/usr/bin/supervisord -c /etc/supervisor/supervisord.conf &
+
+## Wait until X11 is up
+until pids=$(pidof Xvfb)
+do
+  sleep 1
+done
+
+## Execute Zandronum
+zandronum -connect ${TARGETHOST}:${TARGETPORT} &
+
+## Execute app
+node index.js
