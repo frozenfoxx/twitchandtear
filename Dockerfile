@@ -13,15 +13,22 @@ ENV APPDIR="/usr/src/app" \
     libglu1-mesa \
     libgtk2.0 \
     net-tools \
+    novnc \
     obs-studio \
     pulseaudio \
     supervisor \
     ucspi-tcp \
+    websockify \
     x11vnc \
     xdotool \
     xvfb" \
   APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn \
-  BUILD_DEPS="curl build-essential git gnupg software-properties-common wget" \
+  BUILD_DEPS="curl \
+    build-essential \
+    git \
+    gnupg \
+    software-properties-common \
+    wget" \
   DEBIAN_FRONTEND=noninteractive \
   DISPLAY=':0' \
   DISPLAY_WIDTH=1280 \
@@ -35,28 +42,40 @@ ENV APPDIR="/usr/src/app" \
   NPM_CONFIG_PREFIX="/home/node/.npm-global" \
   PATH="${PATH}:/home/node/.npm-global/bin" \
   RCONPASSWORD='' \
+  STREAM_KEY='' \
   TARGETHOST='localhost' \
   TARGETPORT=10666
 
 # Upgrade the system and install dependencies
-RUN add-apt-repository ppa:obsproject/obs-studio && \
-  apt-get update && \
+RUN apt-get update && \
   apt-get upgrade -y && \
-  apt-get install -y ${BUILD_DEPS} ${APP_DEPS}
+  apt-get install -y ${BUILD_DEPS} && \
+  add-apt-repository ppa:obsproject/obs-studio && \
+  apt-get install -y ${APP_DEPS}
 
-# Configure pulseaudio.
-COPY config/default.pa client.conf /etc/pulse/
-
-# Configure supervisord.
-COPY config/supervisord.conf /etc/supervisor/supervisord.conf
+# Create unprivileged user
+RUN useradd --create-home --shell /bin/bash twitchandtear
 
 # Install scripts
 COPY scripts/ /usr/local/bin/
+
+# Configure pulseaudio
+COPY config/pulse/client.conf /etc/pulse/
+COPY config/pulse/default.pa /etc/pulse/
+
+# Configure supervisord
+COPY config/supervisord.conf /etc/supervisor/supervisord.conf
 
 # Set up Zandronum
 RUN mkdir -p /root/.config/zandronum
 COPY config/zandronum.ini /root/.config/zandronum/
 RUN /usr/local/bin/install_zandronum.sh
+
+# Set up obs-studio
+COPY config/obs/global.ini /home/twitchandtear/.config/obs-studio/global.ini
+COPY config/obs/scene.json /home/twitchandtear/.config/obs-studio/basic/scenes/Untitled.json
+COPY config/obs/twitch.ini /home/twitchandtear/.config/obs-studio/basic/profiles/Twitch/basic.ini
+COPY config/obs/twitch.json /home/twitchandtear/service_template.json
 
 # Set up Node
 RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
@@ -73,7 +92,7 @@ RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
   rm -rf /var/lib/apt/lists/*
 
 # Set the user to unprivileged
-#USER twitchandtear
+USER twitchandtear
 
 # Launch
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]

@@ -12,14 +12,10 @@ Implemented:
 
 
 Planned:
-* Hook the EventSub system in Twitch
-* Chatbot
-* For every active person in the chat spawn a follower for the player
-* Redeem bits to spawn powerups
-* Redeem bits to spawn monsters
-* Notification in game for subs
-* Spawn powerups during a hype train
-* Configurable options for enemies/maps/mods via bits
+* Third person follow spectate.
+* Chatbot command to switch character spectating.
+* Send messages from the chat to the server.
+* Launch scripts via RCON if the server supports it.
 
 # Requirements
 
@@ -28,3 +24,13 @@ Planned:
 # Usage
 
 ## Docker
+
+```
+docker run -it --rm \
+  -v /path/to/wads:/wads \
+  -e STREAM_KEY="[Twitch Stream Key]" \
+  -e TARGETHOST="[Zandronum host]" \
+  frozenfoxx/twitchandtear:latest
+```
+
+* `STREAM_KEY`: a Twitch stream key.
