@@ -28,9 +28,16 @@ Planned:
 ```
 docker run -it --rm \
   -v /path/to/wads:/wads \
+  -e CHANNELS="[space delimited list of channels to connect to]" \
+  -e CLIENT_ID="[Twitch client id]" \
+  -e CLIENT_SECRET="[Twitch client secret"] \
   -e STREAM_KEY="[Twitch Stream Key]" \
   -e TARGETHOST="[Zandronum host]" \
   frozenfoxx/twitchandtear:latest
 ```
 
+* `CHANNELS`: Twitch channels to connec to.
+* `CLIENT_ID`: a Twitch application Client ID.
+* `CLIENT_SECRET`: a Twitch application Client Secret.
 * `STREAM_KEY`: a Twitch stream key.
+* `TARGET_HOST`: Zandronum host to connect to.

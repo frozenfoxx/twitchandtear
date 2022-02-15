@@ -2,8 +2,8 @@
 
 # Variables
 DOOMWADDIR=${DOOMWADDIR:-'/wads'}
-TARGETHOST=${TARGETHOST:-'localhost'}
-TARGETPORT=${TARGETPORT:-'10666'}
+TARGET_HOST=${TARGET_HOST:-'localhost'}
+TARGET_PORT=${TARGET_PORT:-'10666'}
 
 # Logic
 ## Run supervisor
@@ -16,7 +16,10 @@ do
 done
 
 ## Execute Zandronum
-zandronum -connect ${TARGETHOST}:${TARGETPORT} &
+zandronum -connect ${TARGET_HOST}:${TARGET_PORT} &
+
+## Execute OBS
+#/usr/local/bin/obs.sh &
 
 ## Execute app
 node index.js

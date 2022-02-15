@@ -29,6 +29,9 @@ ENV APPDIR="/usr/src/app" \
     gnupg \
     software-properties-common \
     wget" \
+  CHANNELS='' \
+  CLIENT_ID=''\
+  CLIENT_SECRET='' \
   DEBIAN_FRONTEND=noninteractive \
   DISPLAY=':0' \
   DISPLAY_WIDTH=1280 \
@@ -43,8 +46,8 @@ ENV APPDIR="/usr/src/app" \
   PATH="${PATH}:/home/node/.npm-global/bin" \
   RCONPASSWORD='' \
   STREAM_KEY='' \
-  TARGETHOST='localhost' \
-  TARGETPORT=10666
+  TARGET_HOST='localhost' \
+  TARGET_PORT=10666
 
 # Upgrade the system and install dependencies
 RUN apt-get update && \
@@ -53,11 +56,19 @@ RUN apt-get update && \
   add-apt-repository ppa:obsproject/obs-studio && \
   apt-get install -y ${APP_DEPS}
 
+# Set up Node
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
+  apt-get install -y nodejs
+
 # Create unprivileged user
 RUN useradd --create-home --shell /bin/bash twitchandtear
 
-# Install scripts
-COPY scripts/ /usr/local/bin/
+# Copy user configurations
+COPY config/obs/global.ini /home/twitchandtear/.config/obs-studio/global.ini
+COPY config/obs/scene.json /home/twitchandtear/.config/obs-studio/basic/scenes/Untitled.json
+COPY config/obs/twitch.ini /home/twitchandtear/.config/obs-studio/basic/profiles/Twitch/basic.ini
+COPY config/obs/twitch.json /home/twitchandtear/service_template.json
+COPY config/zandronum.ini /home/twitchandtear/.config/zandronum/
 
 # Configure pulseaudio
 COPY config/pulse/client.conf /etc/pulse/
@@ -66,30 +77,24 @@ COPY config/pulse/default.pa /etc/pulse/
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/supervisord.conf
 
+# Install scripts
+COPY scripts/ /usr/local/bin/
+
 # Set up Zandronum
-RUN mkdir -p /root/.config/zandronum
-COPY config/zandronum.ini /root/.config/zandronum/
 RUN /usr/local/bin/install_zandronum.sh
-
-# Set up obs-studio
-COPY config/obs/global.ini /home/twitchandtear/.config/obs-studio/global.ini
-COPY config/obs/scene.json /home/twitchandtear/.config/obs-studio/basic/scenes/Untitled.json
-COPY config/obs/twitch.ini /home/twitchandtear/.config/obs-studio/basic/profiles/Twitch/basic.ini
-COPY config/obs/twitch.json /home/twitchandtear/service_template.json
-
-# Set up Node
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
-  apt-get install -y nodejs
 
 # Copy app source
 COPY ./twitchandtear/ .
 
-# Install packages
+# Install Node.js packages
 RUN npm install
 
 # Clean up unnecessary packages
 RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
   rm -rf /var/lib/apt/lists/*
+
+# Ensure user permissions
+RUN chown -R twitchandtear:twitchandtear /home/twitchandtear
 
 # Set the user to unprivileged
 USER twitchandtear
