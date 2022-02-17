@@ -23,8 +23,8 @@ ENV APPDIR="/usr/src/app" \
     xdotool \
     xvfb" \
   APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn \
-  BUILD_DEPS="curl \
-    build-essential \
+  BUILD_DEPS="build-essential \
+    curl \
     git \
     gnupg \
     software-properties-common \

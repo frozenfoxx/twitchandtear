@@ -19,7 +19,7 @@ done
 zandronum -connect ${TARGET_HOST}:${TARGET_PORT} &
 
 ## Execute OBS
-#/usr/local/bin/obs.sh &
+/usr/local/bin/obs.sh &
 
 ## Execute app
 node index.js
