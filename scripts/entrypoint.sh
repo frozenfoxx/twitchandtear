@@ -16,10 +16,10 @@ do
 done
 
 ## Execute Zandronum
-zandronum -connect ${TARGET_HOST}:${TARGET_PORT} &
+DISPLAY=':0' zandronum -connect ${TARGET_HOST}:${TARGET_PORT} &
 
 ## Execute OBS
-/usr/local/bin/obs.sh &
+DISPLAY=':1' /usr/local/bin/obs.sh &
 
 ## Execute app
 node index.js
