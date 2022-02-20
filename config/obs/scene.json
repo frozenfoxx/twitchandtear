@@ -1,157 +1,225 @@
 {
-    "current_program_scene": "Default",
-    "current_scene": "Default",
-    "current_transition": "Fade",
-    "groups": [],
-    "modules": {
-      "auto-scene-switcher": {
-        "active": false,
-        "interval": 300,
-        "non_matching_scene": "",
-        "switch_if_not_matching": false,
-        "switches": []
-      },
-      "decklink_captions": {
-        "source": ""
-      },
-      "output-timer": {
-        "autoStartRecordTimer": false,
-        "autoStartStreamTimer": false,
-        "pauseRecordTimer": false,
-        "recordTimerHours": 0,
-        "recordTimerMinutes": 0,
-        "recordTimerSeconds": 30,
-        "streamTimerHours": 0,
-        "streamTimerMinutes": 0,
-        "streamTimerSeconds": 30
-      },
-      "scripts-tool": []
+  "current_program_scene": "Default",
+  "current_scene": "Default",
+  "current_transition": "Fade",
+  "groups": [],
+  "modules": {
+    "auto-scene-switcher": {
+      "active": false,
+      "interval": 300,
+      "non_matching_scene": "",
+      "switch_if_not_matching": false,
+      "switches": []
     },
-    "name": "Untitled",
-    "preview_locked": false,
-    "quick_transitions": [
-      {
-        "duration": 300,
-        "fade_to_black": false,
-        "hotkeys": [],
-        "id": 1,
-        "name": "Cut"
+    "decklink_captions": {
+      "source": ""
+    },
+    "output-timer": {
+      "autoStartRecordTimer": false,
+      "autoStartStreamTimer": false,
+      "pauseRecordTimer": false,
+      "recordTimerHours": 0,
+      "recordTimerMinutes": 0,
+      "recordTimerSeconds": 30,
+      "streamTimerHours": 0,
+      "streamTimerMinutes": 0,
+      "streamTimerSeconds": 30
+    },
+    "scripts-tool": []
+  },
+  "name": "Untitled",
+  "preview_locked": false,
+  "quick_transitions": [
+    {
+      "duration": 300,
+      "fade_to_black": false,
+      "hotkeys": [],
+      "id": 1,
+      "name": "Cut"
+    },
+    {
+      "duration": 300,
+      "fade_to_black": false,
+      "hotkeys": [],
+      "id": 2,
+      "name": "Fade"
+    }
+  ],
+  "saved_projectors": [],
+  "scaling_enabled": false,
+  "scaling_level": 0,
+  "scaling_off_x": 0,
+  "scaling_off_y": 0,
+  "scene_order": [
+    {
+      "name": "Default"
+    }
+  ],
+  "sources": [
+    {
+      "balance": 0.5,
+      "deinterlace_field_order": 0,
+      "deinterlace_mode": 0,
+      "enabled": true,
+      "flags": 0,
+      "hotkeys": {
+        "libobs.mute": [],
+        "libobs.push-to-mute": [],
+        "libobs.push-to-talk": [],
+        "libobs.unmute": []
       },
-      {
-        "duration": 300,
-        "fade_to_black": false,
-        "hotkeys": [],
-        "id": 2,
-        "name": "Fade"
-      }
-    ],
-    "saved_projectors": [],
-    "scaling_enabled": false,
-    "scaling_level": 0,
-    "scaling_off_x": 0,
-    "scaling_off_y": 0,
-    "scene_order": [
-      {
-        "name": "Default"
-      }
-    ],
-    "sources": [
-      {
-        "balance": 0.5,
-        "deinterlace_field_order": 0,
-        "deinterlace_mode": 0,
-        "enabled": true,
-        "flags": 0,
-        "hotkeys": {},
-        "id": "xshm_input",
-        "mixers": 0,
-        "monitoring_type": 0,
-        "muted": false,
-        "name": "zandronum",
-        "prev_ver": 453115904,
-        "private_settings": {},
-        "push-to-mute": false,
-        "push-to-mute-delay": 0,
-        "push-to-talk": false,
-        "push-to-talk-delay": 0,
-        "settings": {
-          "advanced": true,
-          "server": ":0",
-          "show_cursor": false
-        },
-        "sync": 0,
-        "versioned_id": "xshm_input",
-        "volume": 1
+      "id": "pulse_output_capture",
+      "mixers": 255,
+      "monitoring_type": 0,
+      "muted": false,
+      "name": "Audio Output Capture (PulseAudio)",
+      "prev_ver": 453115904,
+      "private_settings": {},
+      "push-to-mute": false,
+      "push-to-mute-delay": 0,
+      "push-to-talk": false,
+      "push-to-talk-delay": 0,
+      "settings": {
+        "device_id": "default"
       },
-      {
-        "balance": 0.5,
-        "deinterlace_field_order": 0,
-        "deinterlace_mode": 0,
-        "enabled": true,
-        "flags": 0,
-        "hotkeys": {
-          "OBSBasic.SelectScene": [],
-          "libobs.hide_scene_item.zandronum": [],
-          "libobs.show_scene_item.zandronum": []
-        },
-        "id": "scene",
-        "mixers": 0,
-        "monitoring_type": 0,
-        "muted": false,
-        "name": "Default",
-        "prev_ver": 453115904,
-        "private_settings": {},
-        "push-to-mute": false,
-        "push-to-mute-delay": 0,
-        "push-to-talk": false,
-        "push-to-talk-delay": 0,
-        "settings": {
-          "custom_size": false,
-          "id_counter": 2,
-          "items": [
-            {
-              "align": 5,
-              "blend_type": "normal",
-              "bounds": {
-                "x": 0,
-                "y": 0
-              },
-              "bounds_align": 0,
-              "bounds_type": 0,
-              "crop_bottom": 0,
-              "crop_left": 0,
-              "crop_right": 0,
-              "crop_top": 0,
-              "group_item_backup": false,
-              "hide_transition": {
-                "duration": 0
-              },
-              "id": 2,
-              "locked": false,
-              "name": "zandronum",
-              "pos": {
-                "x": 0,
-                "y": 0
-              },
-              "private_settings": {},
-              "rot": 0,
-              "scale": {
-                "x": 1,
-                "y": 1
-              },
-              "scale_filter": "disable",
-              "show_transition": {
-                "duration": 0
-              },
-              "visible": true
-            }
-          ]
-        },
-        "sync": 0,
-        "versioned_id": "scene",
-        "volume": 1
-      }
-    ],
-    "transition_duration": 300,
-    "transitions": []
-  }
+      "sync": 0,
+      "versioned_id": "pulse_output_capture",
+      "volume": 1
+    },
+    {
+      "balance": 0.5,
+      "deinterlace_field_order": 0,
+      "deinterlace_mode": 0,
+      "enabled": true,
+      "flags": 0,
+      "hotkeys": {
+        "OBSBasic.SelectScene": [],
+        "libobs.hide_scene_item.Audio Output Capture (PulseAudio)": [],
+        "libobs.hide_scene_item.zandronum": [],
+        "libobs.show_scene_item.Audio Output Capture (PulseAudio)": [],
+        "libobs.show_scene_item.zandronum": []
+      },
+      "id": "scene",
+      "mixers": 0,
+      "monitoring_type": 0,
+      "muted": false,
+      "name": "Default",
+      "prev_ver": 453115904,
+      "private_settings": {},
+      "push-to-mute": false,
+      "push-to-mute-delay": 0,
+      "push-to-talk": false,
+      "push-to-talk-delay": 0,
+      "settings": {
+        "custom_size": false,
+        "id_counter": 6,
+        "items": [
+          {
+            "align": 5,
+            "blend_type": "normal",
+            "bounds": {
+              "x": 0,
+              "y": 0
+            },
+            "bounds_align": 0,
+            "bounds_type": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "crop_top": 0,
+            "group_item_backup": false,
+            "hide_transition": {
+              "duration": 0
+            },
+            "id": 4,
+            "locked": false,
+            "name": "Audio Output Capture (PulseAudio)",
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "private_settings": {},
+            "rot": 0,
+            "scale": {
+              "x": 1,
+              "y": 1
+            },
+            "scale_filter": "disable",
+            "show_transition": {
+              "duration": 0
+            },
+            "visible": true
+          },
+          {
+            "align": 5,
+            "blend_type": "normal",
+            "bounds": {
+              "x": 0,
+              "y": 0
+            },
+            "bounds_align": 0,
+            "bounds_type": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "crop_top": 0,
+            "group_item_backup": false,
+            "hide_transition": {
+              "duration": 0
+            },
+            "id": 2,
+            "locked": false,
+            "name": "zandronum",
+            "pos": {
+              "x": 0,
+              "y": 0
+            },
+            "private_settings": {},
+            "rot": 0,
+            "scale": {
+              "x": 1,
+              "y": 1
+            },
+            "scale_filter": "disable",
+            "show_transition": {
+              "duration": 0
+            },
+            "visible": true
+          }
+        ]
+      },
+      "sync": 0,
+      "versioned_id": "scene",
+      "volume": 1
+    },
+    {
+      "balance": 0.5,
+      "deinterlace_field_order": 0,
+      "deinterlace_mode": 0,
+      "enabled": true,
+      "flags": 0,
+      "hotkeys": {},
+      "id": "xshm_input",
+      "mixers": 0,
+      "monitoring_type": 0,
+      "muted": false,
+      "name": "zandronum",
+      "prev_ver": 453115904,
+      "private_settings": {},
+      "push-to-mute": false,
+      "push-to-mute-delay": 0,
+      "push-to-talk": false,
+      "push-to-talk-delay": 0,
+      "settings": {
+        "advanced": true,
+        "server": ":0",
+        "show_cursor": false
+      },
+      "sync": 0,
+      "versioned_id": "xshm_input",
+      "volume": 1
+    }
+  ],
+  "transition_duration": 300,
+  "transitions": []
+}

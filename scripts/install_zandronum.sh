@@ -3,7 +3,6 @@
 # Install Zandronum
 
 # Variables
-
 DISTRO=${DISTRO:-'ubuntu'}
 REPO_KEY=${REPO_KEY:-'drdteam.gpg'}
 REPO_URL=${REPO_URL:-'http://debian.drdteam.org'}
@@ -29,6 +28,7 @@ add_repo_debian()
 {
   wget -O - ${REPO_URL}/${REPO_KEY} | apt-key add -
   apt-add-repository "deb ${REPO_URL}/ stable multiverse"
+  apt update
 }
 
 ## Install Zandronum
@@ -48,8 +48,7 @@ install_zandronum()
 ## Install Zandronum on Debian-based systems
 install_zandronum_debian()
 {
-  apt update
-  apt install -y zandronum
+  apt install -y zandronum-client
 }
 
 ## Display usage information

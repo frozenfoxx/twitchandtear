@@ -63,6 +63,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
 # Create unprivileged user
 RUN useradd --create-home --shell /bin/bash twitchandtear
 
+# Install scripts
+COPY scripts/ /usr/local/bin/
+
+# Set up Zandronum
+RUN /usr/local/bin/install_zandronum.sh
+
 # Copy user configurations
 COPY config/obs/global.ini /home/twitchandtear/.config/obs-studio/global.ini
 COPY config/obs/scene.json /home/twitchandtear/.config/obs-studio/basic/scenes/Untitled.json
@@ -76,12 +82,6 @@ COPY config/pulse/default.pa /etc/pulse/
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/supervisord.conf
-
-# Install scripts
-COPY scripts/ /usr/local/bin/
-
-# Set up Zandronum
-RUN /usr/local/bin/install_zandronum.sh
 
 # Copy app source
 COPY ./twitchandtear/ .
