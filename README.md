@@ -1,6 +1,6 @@
 # twitchandtear
 
-[![Build Status](https://cloud.drone.io/api/badges/frozenfoxx/twitchandtear/status.svg?ref=refs/heads/main)](https://cloud.drone.io/frozenfoxx/twitchandtear)
+[![Actions Status](https://github.com/frozenfoxx/twitchandtear/workflows/build/badge.svg)](https://github.com/frozenfoxx/twitchandtear/actions)
 
 [Twitch](https://twitch.tv/) integration for [Zandronum](https://zandronum.com/).
 
