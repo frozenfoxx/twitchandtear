@@ -96,8 +96,5 @@ RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
 # Ensure user permissions
 RUN chown -R twitchandtear:twitchandtear /home/twitchandtear
 
-# Set the user to unprivileged
-USER twitchandtear
-
 # Launch
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]

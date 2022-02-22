@@ -28,7 +28,7 @@ add_repo_debian()
 {
   wget -O - ${REPO_URL}/${REPO_KEY} | apt-key add -
   apt-add-repository "deb ${REPO_URL}/ stable multiverse"
-  apt update
+  apt-get update
 }
 
 ## Install Zandronum
@@ -48,7 +48,7 @@ install_zandronum()
 ## Install Zandronum on Debian-based systems
 install_zandronum_debian()
 {
-  apt install -y zandronum-client
+  apt-get install -y zandronum-client
 }
 
 ## Display usage information

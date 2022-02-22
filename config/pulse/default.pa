@@ -1,4 +1,4 @@
 #!/usr/bin/pulseaudio -nF
 
-load-module module-native-protocol-unix socket=/tmp/pulseaudio.socket auth-anonymous=1
-load-module module-always-sink
+load-module module-null-sink sink_name=loopback
+load-module module-loopback sink=loopback

@@ -6,6 +6,11 @@ TARGET_HOST=${TARGET_HOST:-'localhost'}
 TARGET_PORT=${TARGET_PORT:-'10666'}
 
 # Logic
+## Start dbus
+mkdir -p /var/run/dbus
+dbus-uuidgen > /var/lib/dbus/machine-id
+dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
+
 ## Run supervisor
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf &
 
@@ -16,10 +21,10 @@ do
 done
 
 ## Execute Zandronum
-DISPLAY=':0' zandronum -connect ${TARGET_HOST}:${TARGET_PORT} &
+su - twitchandtear -c "DISPLAY=':0' zandronum -connect ${TARGET_HOST}:${TARGET_PORT}" &
 
 ## Execute OBS
-DISPLAY=':1' /usr/local/bin/obs.sh &
+su - twitchandtear -c "DISPLAY=':1' /usr/local/bin/obs.sh" &
 
 ## Execute app
-node index.js
+su - twitchandtear -c "node index.js"
