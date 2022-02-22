@@ -21,10 +21,11 @@ do
 done
 
 ## Execute Zandronum
-su - twitchandtear -c "DISPLAY=':0' zandronum -connect ${TARGET_HOST}:${TARGET_PORT}" &
+su twitchandtear -c "DISPLAY=':0' DOOMWADDIR=${DOOMWADDIR} zandronum -connect ${TARGET_HOST}:${TARGET_PORT}" &
 
 ## Execute OBS
-su - twitchandtear -c "DISPLAY=':1' /usr/local/bin/obs.sh" &
+su twitchandtear -c "DISPLAY=':1' /usr/local/bin/obs.sh" &
 
 ## Execute app
-su - twitchandtear -c "node index.js"
+cd /app
+su twitchandtear -c "node index.js"
