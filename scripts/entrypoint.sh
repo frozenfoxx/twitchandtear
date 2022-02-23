@@ -7,12 +7,11 @@ TARGET_PORT=${TARGET_PORT:-'10666'}
 
 # Logic
 ## Start dbus
-mkdir -p /var/run/dbus
 dbus-uuidgen > /var/lib/dbus/machine-id
 dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
 
 ## Run supervisor
-/usr/bin/supervisord -c /etc/supervisor/supervisord.conf &
+su twitchandtear -c "/usr/bin/supervisord -c /etc/supervisor/supervisord.conf" &
 
 ## Wait until X11 is up
 until pids=$(pidof Xvfb)

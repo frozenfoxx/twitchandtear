@@ -8,6 +8,7 @@ LABEL maintainer="FrozenFOXX <frozenfoxx@churchoffoxx.net>"
 WORKDIR /app
 ENV APPDIR="/usr/src/app" \
   APP_DEPS="gstreamer1.0-plugins-good \
+    dbus-x11 \
     gstreamer1.0-pulseaudio \
     gstreamer1.0-tools \
     libglu1-mesa \
@@ -79,6 +80,7 @@ COPY config/zandronum.ini /home/twitchandtear/.config/zandronum/
 # Configure pulseaudio
 COPY config/pulse/client.conf /etc/pulse/
 COPY config/pulse/default.pa /etc/pulse/
+RUN mkdir -p /var/run/dbus
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/supervisord.conf
