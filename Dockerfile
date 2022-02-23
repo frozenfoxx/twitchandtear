@@ -78,9 +78,10 @@ COPY config/obs/twitch.json /home/twitchandtear/service_template.json
 COPY config/zandronum.ini /home/twitchandtear/.config/zandronum/
 
 # Configure pulseaudio
-COPY config/pulse/client.conf /etc/pulse/
-COPY config/pulse/default.pa /etc/pulse/
-RUN mkdir -p /var/run/dbus
+RUN mkdir -p /var/run/dbus && \
+  mkdir -p /home/twitchandtear/.config/pulse
+COPY config/pulse/client.conf /home/twitchandtear/.config/pulse/
+COPY config/pulse/default.pa /home/twitchandtear/.config/pulse/
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/supervisord.conf
@@ -97,6 +98,9 @@ RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
 
 # Ensure user permissions
 RUN chown -R twitchandtear:twitchandtear /home/twitchandtear
+
+# Set to non-privileged user
+USER twitchandtear
 
 # Launch
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
