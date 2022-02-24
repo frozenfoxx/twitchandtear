@@ -6,9 +6,8 @@ TARGET_HOST=${TARGET_HOST:-'localhost'}
 TARGET_PORT=${TARGET_PORT:-'10666'}
 
 # Logic
-## Start dbus
-dbus-uuidgen > /var/lib/dbus/machine-id
-dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
+## Start pulseaudio
+/usr/bin/pulseaudio --start --disallow-exit -vvv 2>&1 | tee ~/pulseaudio.log &
 
 ## Run supervisor
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf &

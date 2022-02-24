@@ -7,10 +7,7 @@ LABEL maintainer="FrozenFOXX <frozenfoxx@churchoffoxx.net>"
 # Variables
 WORKDIR /app
 ENV APPDIR="/usr/src/app" \
-  APP_DEPS="gstreamer1.0-plugins-good \
-    dbus-x11 \
-    gstreamer1.0-pulseaudio \
-    gstreamer1.0-tools \
+  APP_DEPS=" \
     libglu1-mesa \
     libgtk2.0 \
     net-tools \
@@ -78,8 +75,8 @@ COPY config/obs/twitch.json /home/twitchandtear/service_template.json
 COPY config/zandronum.ini /home/twitchandtear/.config/zandronum/
 
 # Configure pulseaudio
-RUN mkdir -p /var/run/dbus && \
-  mkdir -p /home/twitchandtear/.config/pulse
+RUN mkdir -p /home/twitchandtear/.config/pulse && \
+  adduser twitchandtear pulse-access
 COPY config/pulse/client.conf /home/twitchandtear/.config/pulse/
 COPY config/pulse/default.pa /home/twitchandtear/.config/pulse/
 
