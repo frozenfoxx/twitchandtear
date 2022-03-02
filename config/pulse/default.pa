@@ -1,4 +1,13 @@
 #!/usr/bin/pulseaudio -nF
 
+# Set the network capabilities
 load-module module-native-protocol-unix socket=/tmp/pulseaudio.socket auth-anonymous=1
+
+# Set to always load a sink, even if only a null sink
 load-module module-always-sink
+
+# Load the virtual sink and set it as default
+load-module module-virtual-sink sink_name=loopback
+
+# Set the default source to the loopback
+set-default-source = loopback.monitor

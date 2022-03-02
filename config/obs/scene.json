@@ -62,28 +62,25 @@
       "deinterlace_mode": 0,
       "enabled": true,
       "flags": 0,
-      "hotkeys": {
-        "libobs.mute": [],
-        "libobs.push-to-mute": [],
-        "libobs.push-to-talk": [],
-        "libobs.unmute": []
-      },
-      "id": "pulse_output_capture",
-      "mixers": 255,
+      "hotkeys": {},
+      "id": "xshm_input",
+      "mixers": 0,
       "monitoring_type": 0,
       "muted": false,
-      "name": "Audio Output Capture (PulseAudio)",
-      "prev_ver": 453115904,
+      "name": "zandronum",
+      "prev_ver": 453115906,
       "private_settings": {},
       "push-to-mute": false,
       "push-to-mute-delay": 0,
       "push-to-talk": false,
       "push-to-talk-delay": 0,
       "settings": {
-        "device_id": "default"
+        "advanced": true,
+        "server": ":0",
+        "show_cursor": false
       },
       "sync": 0,
-      "versioned_id": "pulse_output_capture",
+      "versioned_id": "xshm_input",
       "volume": 1
     },
     {
@@ -104,7 +101,7 @@
       "monitoring_type": 0,
       "muted": false,
       "name": "Default",
-      "prev_ver": 453115904,
+      "prev_ver": 453115906,
       "private_settings": {},
       "push-to-mute": false,
       "push-to-mute-delay": 0,
@@ -198,25 +195,28 @@
       "deinterlace_mode": 0,
       "enabled": true,
       "flags": 0,
-      "hotkeys": {},
-      "id": "xshm_input",
-      "mixers": 0,
+      "hotkeys": {
+        "libobs.mute": [],
+        "libobs.push-to-mute": [],
+        "libobs.push-to-talk": [],
+        "libobs.unmute": []
+      },
+      "id": "pulse_output_capture",
+      "mixers": 255,
       "monitoring_type": 0,
       "muted": false,
-      "name": "zandronum",
-      "prev_ver": 453115904,
+      "name": "Audio Output Capture (PulseAudio)",
+      "prev_ver": 453115906,
       "private_settings": {},
       "push-to-mute": false,
       "push-to-mute-delay": 0,
       "push-to-talk": false,
       "push-to-talk-delay": 0,
       "settings": {
-        "advanced": true,
-        "server": ":0",
-        "show_cursor": false
+        "device_id": "loopback.monitor"
       },
       "sync": 0,
-      "versioned_id": "xshm_input",
+      "versioned_id": "pulse_output_capture",
       "volume": 1
     }
   ],

@@ -78,6 +78,7 @@ COPY config/zandronum.ini /home/twitchandtear/.config/zandronum/
 RUN mkdir -p /home/twitchandtear/.config/pulse && \
   adduser twitchandtear pulse-access
 COPY config/pulse/client.conf /home/twitchandtear/.config/pulse/
+COPY config/pulse/daemon.conf /home/twitchandtear/.config/pulse/
 COPY config/pulse/default.pa /home/twitchandtear/.config/pulse/
 
 # Configure supervisord
