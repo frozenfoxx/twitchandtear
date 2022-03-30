@@ -16,7 +16,7 @@ const authProvider = new ClientCredentialsAuthProvider(client_id, client_secret)
 
 // connect to the chat
 const twitchChatClient = new ChatClient({ authProvider, channels: channels })
-await twitchChatClient.connect()
+twitchChatClient.connect()
 
 module.exports = {
     twitchChatClient
