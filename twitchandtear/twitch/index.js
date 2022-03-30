@@ -1,11 +1,8 @@
 'use strict'
 
-import { ClientCredentialsAuthProvider } from '@twurple/auth';
-
-
 // required libraries
-const RefreshingAuthProvider = require('@twurple/auth').RefreshingAuthProvider
 const ChatClient = require('@twurple/chat').ChatClient
+const ClientCredentialsAuthProvider = require('@twurple/auth').ClientCredentialsAuthProvider
 const fs = require('fs').promises
 const logger = require('../config/logger')
 
