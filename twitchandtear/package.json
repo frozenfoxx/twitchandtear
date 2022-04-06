@@ -1,13 +1,14 @@
 {
   "name": "twitchandtear",
   "version": "0.0.1",
-  "description": "[![Build Status](https://cloud.drone.io/api/badges/frozenfoxx/twitchandtear/status.svg?ref=refs/heads/main)](https://cloud.drone.io/frozenfoxx/twitchandtear)",
+  "description": "[![Actions Status](https://github.com/frozenfoxx/twitchandtear/workflows/build/badge.svg)](https://github.com/frozenfoxx/twitchandtear/actions)",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "dependencies": {
     "@twurple/auth": "^5.0.13",
+    "@twurple/chat": "^5.0.13",
     "@twurple/eventsub": "^5.0.13",
     "@twurple/pubsub": "^5.0.13",
     "array.prototype.map": "^1.0.4",
@@ -60,6 +61,7 @@
     "object-inspect": "^1.12.0",
     "object-keys": "^1.1.1",
     "object.assign": "^4.1.2",
+    "package.json": "^2.0.1",
     "safer-buffer": "^2.1.2",
     "setprototypeof": "^1.1.1",
     "side-channel": "^1.0.4",
@@ -89,6 +91,5 @@
   "bugs": {
     "url": "https://github.com/frozenfoxx/twitchandtear/issues"
   },
-  "homepage": "https://github.com/frozenfoxx/twitchandtear#readme",
-  "devDependencies": {}
+  "homepage": "https://github.com/frozenfoxx/twitchandtear#readme"
 }
