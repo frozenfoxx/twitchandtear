@@ -7,10 +7,6 @@
     "lib": "lib"
   },
   "dependencies": {
-    "@twurple/auth": "^5.0.13",
-    "@twurple/chat": "^5.0.13",
-    "@twurple/eventsub": "^5.0.13",
-    "@twurple/pubsub": "^5.0.13",
     "array.prototype.map": "^1.0.4",
     "asynckit": "^0.4.0",
     "bytes": "^3.1.0",
@@ -69,6 +65,7 @@
     "statuses": "^1.5.0",
     "string.prototype.trimend": "^1.0.4",
     "string.prototype.trimstart": "^1.0.4",
+    "tmi.js": "^1.8.5",
     "toidentifier": "^1.0.0",
     "tslib": "^2.3.1",
     "unbox-primitive": "^1.0.1",
