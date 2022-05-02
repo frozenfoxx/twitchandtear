@@ -13,20 +13,26 @@ const oauth_token = process.env.OAUTH_TOKEN || ''
 
 // Define configuration options
 const opts = {
+    options: {
+        debug: true,
+        messagesLogLevel: "info"
+    },
+    connection: {
+        reconnect: true,
+        secure: true
+    },
     identity: {
         username: bot_username,
         password: oauth_token
     },
-    channels: [
-      channels
-    ]
-  }
+    channels: channels
+}
 
 // Create a client with our options
 const twitchChatClient = new tmi.client(opts)
 
 // connect to the chat
-twitchChatClient.connect()
+twitchChatClient.connect().catch(console.error)
 
 module.exports = {
     twitchChatClient
