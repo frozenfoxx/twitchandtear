@@ -14,8 +14,9 @@ const twitchChatClient = require('./twitch')
 const xdotool = which.sync('xdotool')
 
 // react to messages in the chat
-twitchChatClient.onMessage((channel, user, message) => {
-    if (message === '!ripandtear') {
+twitchChatClient.on('message', (channel, tags, message, self) => {
+    if (self) return
+    if (message.toLowerCase() === '!ripandtear') {
         twitchChatClient.say(channel, 'Until it is done!');
     }
 })
