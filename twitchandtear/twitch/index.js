@@ -28,12 +28,12 @@ const opts = {
     channels: channels
 }
 
-// Create a client with our options
-const twitchChatClient = new tmi.client(opts)
+// create a chat client with our options
+const streamChat = new tmi.client(opts)
 
 // connect to the chat
-twitchChatClient.connect().catch(console.error)
+streamChat.connect().catch(console.error)
 
 module.exports = {
-    twitchChatClient
+    streamChat
 }
