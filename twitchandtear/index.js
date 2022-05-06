@@ -15,8 +15,28 @@ const xdotool = which.sync('xdotool')
 
 // react to messages in the chat
 twitch.streamChat.on('message', (channel, tags, message, self) => {
+    // don't do anything if it's our own message
     if (self) return
+
+    // bit of humor
     if (message.toLowerCase() === '!ripandtear') {
-        twitchChatClient.say(channel, 'Until it is done!');
+        twitch.streamChat.say(channel, 'Until it is done!')
+    }
+
+    // good memory
+    if (message.toLowerCase() === '!iddqd') {
+        twitch.streamChat.say(channel, `Your memory serves you well, @${tags.username}`)
+    }
+
+    // spectate next player
+    if (message.toLowerCase() === '!nextplayer') {
+        spawn(xdotool, ["search", "--name", "zandronum", "key", "F12"])
+        twitch.streamChat.say(channel, 'Viewing the next player...')
+    }
+
+    // spectate previous player
+    if (message.toLowerCase() === '!prevplayer') {
+        spawn(xdotool, ["search", "--name", "zandronum", "key", "F11"])
+        twitch.streamChat.say(channel, 'Viewing the previous player...')
     }
 })

@@ -29,15 +29,17 @@ Planned:
 docker run -it --rm \
   -v /path/to/wads:/wads \
   -e CHANNELS="[space delimited list of channels to connect to]" \
-  -e CLIENT_ID="[Twitch client id]" \
-  -e CLIENT_SECRET="[Twitch client secret"] \
+  -e CLIENT_ID="[Twitch bot client id]" \
+  -e CLIENT_SECRET="[Twitch bot client secret"] \
+  -e OAUTH_TOKEN="[Twitch bot Oauth token]" \
   -e STREAM_KEY="[Twitch Stream Key]" \
-  -e TARGETHOST="[Zandronum host]" \
+  -e TARGET_HOST="[Zandronum host]" \
   frozenfoxx/twitchandtear:latest
 ```
 
 * `CHANNELS`: Twitch channels to connec to.
 * `CLIENT_ID`: a Twitch application Client ID.
 * `CLIENT_SECRET`: a Twitch application Client Secret.
+* `OAUTH_TOKEN`: a Twitch stream Oauth 2 token.
 * `STREAM_KEY`: a Twitch stream key.
 * `TARGET_HOST`: Zandronum host to connect to.
