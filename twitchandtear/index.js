@@ -30,13 +30,13 @@ twitch.streamChat.on('message', (channel, tags, message, self) => {
 
     // spectate next player
     if (message.toLowerCase() === '!nextplayer') {
-        spawn(xdotool, ["search", "--name", "zandronum", "key", "F12"])
+        const xdotoolSpawn = spawn(xdotool, ["key", "F12"])
         twitch.streamChat.say(channel, 'Viewing the next player...')
     }
 
     // spectate previous player
     if (message.toLowerCase() === '!prevplayer') {
-        spawn(xdotool, ["search", "--name", "zandronum", "key", "F11"])
+        const xdotoolSpawn = spawn(xdotool, ["key", "F11"])
         twitch.streamChat.say(channel, 'Viewing the previous player...')
     }
 })
