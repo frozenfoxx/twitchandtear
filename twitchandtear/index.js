@@ -3,8 +3,8 @@
 'use strict'
 
 const logger = require('./config/logger')
-const spawn = require('child_process')
 const which = require('which')
+const { spawn } = require('child_process')
 
 // logic
 logger.info('Connecting to Twitch...')
@@ -30,13 +30,13 @@ twitch.streamChat.on('message', (channel, tags, message, self) => {
 
     // spectate next player
     if (message.toLowerCase() === '!nextplayer') {
-        const xdotoolSpawn = spawn(xdotool, ["key", "F12"])
+        spawn(xdotool, ["key", "F12"])
         twitch.streamChat.say(channel, 'Viewing the next player...')
     }
 
     // spectate previous player
     if (message.toLowerCase() === '!prevplayer') {
-        const xdotoolSpawn = spawn(xdotool, ["key", "F11"])
+        spawn(xdotool, ["key", "F11"])
         twitch.streamChat.say(channel, 'Viewing the previous player...')
     }
 })
