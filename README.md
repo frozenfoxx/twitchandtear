@@ -8,14 +8,17 @@ Docker Hub: [https://hub.docker.com/r/frozenfoxx/twitchandtear](https://hub.dock
 
 # Features
 
-Implemented:
-
+* First person follow spectate
+* Chatbot commands to switch character spectating
 
 Planned:
-* Third person follow spectate.
-* Chatbot command to switch character spectating.
-* Send messages from the chat to the server.
-* Launch scripts via RCON if the server supports it.
+* Send messages from the chat to the server
+* Launch scripts via RCON if the server supports it
+
+# Twitch Commands
+
+* `!nextplayer`: spectate the next player
+* `!prevplayer`: spectate the previous player
 
 # Requirements
 
