@@ -40,7 +40,7 @@ docker run -it --rm \
   frozenfoxx/twitchandtear:latest
 ```
 
-* `CHANNELS`: Twitch channels to connec to.
+* `CHANNELS`: Twitch channels to connect to.
 * `CLIENT_ID`: a Twitch application Client ID.
 * `CLIENT_SECRET`: a Twitch application Client Secret.
 * `OAUTH_TOKEN`: a Twitch stream Oauth 2 token.
