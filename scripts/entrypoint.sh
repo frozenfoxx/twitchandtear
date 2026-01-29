@@ -24,4 +24,4 @@ DISPLAY=':1' /usr/local/bin/obs.sh &
 
 ## Execute app
 cd /app
-node index.js $@
+npm start $@

@@ -2,11 +2,15 @@
   "name": "twitchandtear",
   "version": "0.0.1",
   "description": "[![Actions Status](https://github.com/frozenfoxx/twitchandtear/workflows/build/badge.svg)](https://github.com/frozenfoxx/twitchandtear/actions)",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "directories": {
     "lib": "lib"
   },
   "dependencies": {
+    "@types/node": "^20.0.0",
+    "@types/tmi.js": "^1.8.3",
+    "@types/which": "^3.0.0",
     "array.prototype.map": "^1.0.4",
     "asynckit": "^0.4.0",
     "bytes": "^3.1.0",
@@ -75,7 +79,14 @@
     "winston": "^3.3.3",
     "ws": "^8.4.0"
   },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
   "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js",
+    "clean": "rm -rf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -90,6 +90,9 @@ COPY ./twitchandtear/ .
 # Install Node.js packages
 RUN npm install
 
+# Build TypeScript
+RUN npm run build
+
 # Clean up unnecessary packages
 RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
   rm -rf /var/lib/apt/lists/*
