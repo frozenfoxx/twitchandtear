@@ -1,66 +1,38 @@
 #!/usr/bin/env bash
 
-# Install Zandronum
+# Install Zandronum from official binary tarball
 
 # Variables
-DISTRO=${DISTRO:-'ubuntu'}
-REPO_KEY=${REPO_KEY:-'drdteam.gpg'}
-REPO_URL=${REPO_URL:-'https://debian.drdteam.org'}
+ZANDRONUM_VERSION=${ZANDRONUM_VERSION:-'3.2.1'}
+ZANDRONUM_URL=${ZANDRONUM_URL:-"https://zandronum.com/downloads/zandronum${ZANDRONUM_VERSION}-linux-x86_64.tar.bz2"}
+INSTALL_DIR=${INSTALL_DIR:-'/opt/zandronum'}
 
 # Functions
-
-## Add the repository
-add_repo()
-{
-  case "${DISTRO}" in
-    debian ) add_repo_debian
-             ;;
-    ubuntu ) add_repo_debian
-             ;;
-    * )      echo "This distro is unsupported at this time"
-             exit 1
-             ;;
-  esac
-}
-
-## Add a Debian repository using modern signed-by approach
-add_repo_debian()
-{
-  mkdir -p /etc/apt/keyrings
-  wget -O /etc/apt/keyrings/${REPO_KEY} ${REPO_URL}/${REPO_KEY}
-  echo "deb [signed-by=/etc/apt/keyrings/${REPO_KEY}] ${REPO_URL}/ stable multiverse" \
-    > /etc/apt/sources.list.d/drdteam.list
-  apt-get update
-}
-
-## Install Zandronum
-install_zandronum()
-{
-  case "${DISTRO}" in
-    debian ) install_zandronum_debian
-             ;;
-    ubuntu ) install_zandronum_debian
-             ;;
-    * )      echo "This distro is unsupported at this time"
-             exit 1
-             ;;
-  esac
-}
-
-## Install Zandronum on Debian-based systems
-install_zandronum_debian()
-{
-  apt-get install -y zandronum
-}
 
 ## Display usage information
 usage()
 {
   echo "Usage: [Environment Variables] install_zandronum.sh [options]"
   echo "  Environment Variables:"
-  echo "    DISTRO                distribution to install to (default: 'ubuntu')"
-  echo "    REPO_KEY              repository keyfile (default: 'drdteam.gpg')"
-  echo "    REPO_URL              repository URL (default: 'https://debian.drdteam.org')"
+  echo "    ZANDRONUM_VERSION     version to install (default: '3.2.1')"
+  echo "    ZANDRONUM_URL         download URL (default: auto-generated from version)"
+  echo "    INSTALL_DIR           installation directory (default: '/opt/zandronum')"
+}
+
+## Install Zandronum
+install_zandronum()
+{
+  echo "Downloading Zandronum ${ZANDRONUM_VERSION}..."
+  mkdir -p "${INSTALL_DIR}"
+  wget -q -O /tmp/zandronum.tar.bz2 "${ZANDRONUM_URL}"
+  tar -xjf /tmp/zandronum.tar.bz2 -C "${INSTALL_DIR}" --strip-components=0
+  rm -f /tmp/zandronum.tar.bz2
+
+  # Create symlink so zandronum is in PATH
+  ln -sf "${INSTALL_DIR}/zandronum" /usr/local/bin/zandronum
+  ln -sf "${INSTALL_DIR}/zandronum.pk3" /usr/local/share/zandronum.pk3
+
+  echo "Zandronum ${ZANDRONUM_VERSION} installed to ${INSTALL_DIR}"
 }
 
 # Logic
@@ -78,5 +50,4 @@ while [[ "$1" != "" ]]; do
   shift
 done
 
-add_repo
 install_zandronum

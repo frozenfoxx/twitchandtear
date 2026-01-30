@@ -1,16 +1,18 @@
 # Base image
-FROM --platform=linux/amd64 ubuntu:24.04
+FROM ubuntu:24.04
 
 # Information
 LABEL maintainer="FrozenFOXX <frozenfoxx@cultoffoxx.net>"
 
 # Variables
+# NOTE: libsdl2-2.0-0 is required by the Zandronum binary tarball
 WORKDIR /app
 ENV APPDIR="/usr/src/app" \
   APP_DEPS=" \
     gettext-base \
     libglu1-mesa \
     libgtk2.0-0t64 \
+    libsdl2-2.0-0 \
     net-tools \
     novnc \
     obs-studio \
@@ -28,8 +30,7 @@ ENV APPDIR="/usr/src/app" \
     software-properties-common \
     wget" \
   CHANNELS='' \
-  CLIENT_ID=''\
-  CLIENT_SECRET='' \
+  CLIENT_ID='' \
   DEBIAN_FRONTEND=noninteractive \
   DISPLAY=':0' \
   DISPLAY_WIDTH=1920 \
@@ -43,8 +44,6 @@ ENV APPDIR="/usr/src/app" \
   NPM_CONFIG_LOGLEVEL="info" \
   NPM_CONFIG_PREFIX="/home/node/.npm-global" \
   PATH="${PATH}:/home/node/.npm-global/bin" \
-  RCONPASSWORD='' \
-  STREAM_KEY='' \
   TARGET_HOST='localhost' \
   TARGET_PORT=10666
 
