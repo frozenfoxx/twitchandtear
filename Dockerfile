@@ -1,5 +1,5 @@
 # Base image
-FROM ubuntu:24.04
+FROM --platform=linux/amd64 ubuntu:24.04
 
 # Information
 LABEL maintainer="FrozenFOXX <frozenfoxx@cultoffoxx.net>"
@@ -8,8 +8,9 @@ LABEL maintainer="FrozenFOXX <frozenfoxx@cultoffoxx.net>"
 WORKDIR /app
 ENV APPDIR="/usr/src/app" \
   APP_DEPS=" \
+    gettext-base \
     libglu1-mesa \
-    libgtk2.0 \
+    libgtk2.0-0t64 \
     net-tools \
     novnc \
     obs-studio \
@@ -20,7 +21,6 @@ ENV APPDIR="/usr/src/app" \
     x11vnc \
     xdotool \
     xvfb" \
-  APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn \
   BUILD_DEPS="build-essential \
     curl \
     git \
@@ -39,6 +39,7 @@ ENV APPDIR="/usr/src/app" \
   LANGUAGE=en_US.UTF-8 \
   LC_ALL=C.UTF-8 \
   NODE_ENV="production" \
+  PULSE_SERVER="unix:/tmp/pulseaudio.socket" \
   NPM_CONFIG_LOGLEVEL="info" \
   NPM_CONFIG_PREFIX="/home/node/.npm-global" \
   PATH="${PATH}:/home/node/.npm-global/bin" \
@@ -55,11 +56,14 @@ RUN apt-get update && \
   apt-get install -y ${APP_DEPS}
 
 # Set up Node
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
   apt-get install -y nodejs
 
 # Create unprivileged user
 RUN useradd --create-home --shell /bin/bash twitchandtear
+
+# Create WAD directory
+RUN mkdir -p /wads && chown twitchandtear:twitchandtear /wads
 
 # Install scripts
 COPY scripts/ /usr/local/bin/
@@ -69,7 +73,7 @@ RUN /usr/local/bin/install_zandronum.sh
 
 # Copy user configurations
 COPY config/obs/global.ini /home/twitchandtear/.config/obs-studio/global.ini
-COPY config/obs/scene.json /home/twitchandtear/.config/obs-studio/basic/scenes/Untitled.json
+COPY config/obs/scene.json /home/twitchandtear/.config/obs-studio/basic/scenes/TwitchAndTear.json
 COPY config/obs/twitch.ini /home/twitchandtear/.config/obs-studio/basic/profiles/Twitch/basic.ini
 COPY config/obs/twitch.json /home/twitchandtear/service_template.json
 COPY config/zandronum.ini /home/twitchandtear/.config/zandronum/
@@ -87,18 +91,22 @@ COPY config/supervisord.conf /etc/supervisor/supervisord.conf
 # Copy app source
 COPY ./twitchandtear/ .
 
-# Install Node.js packages
-RUN npm install
+# Install Node.js packages (include devDependencies for build step)
+RUN npm install --include=dev
 
 # Build TypeScript
 RUN npm run build
+
+# Prune devDependencies for production
+RUN npm prune --omit=dev
 
 # Clean up unnecessary packages
 RUN apt-get autoremove --purge -y ${BUILD_DEPS} && \
   rm -rf /var/lib/apt/lists/*
 
 # Ensure user permissions
-RUN chown -R twitchandtear:twitchandtear /home/twitchandtear
+RUN chown -R twitchandtear:twitchandtear /home/twitchandtear && \
+  chown -R twitchandtear:twitchandtear /app
 
 # Set to non-privileged user
 USER twitchandtear

@@ -41,7 +41,6 @@ const streamChat = new tmi.client(opts);
 
 streamChat.connect().catch((error) => {
   logger.error('Failed to connect to Twitch:', error);
-  console.error(error);
 });
 
 export { streamChat };

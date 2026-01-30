@@ -6,8 +6,12 @@ load-module module-native-protocol-unix socket=/tmp/pulseaudio.socket auth-anony
 # Set to always load a sink, even if only a null sink
 load-module module-always-sink
 
+# Load a null sink as a fallback
+load-module module-null-sink sink_name=fallback sink_properties=device.description="Fallback"
+
 # Load the virtual sink and set it as default
 load-module module-virtual-sink sink_name=loopback
 
-# Set the default source to the loopback
-set-default-source = loopback.monitor
+# Set the default sink and source
+set-default-sink loopback
+set-default-source loopback.monitor

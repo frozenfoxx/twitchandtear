@@ -1,28 +1,13 @@
 import winston from 'winston';
 
-interface ConsoleTransportOptions {
-  level: string;
-  handleExceptions: boolean;
-  json: boolean;
-  colorize: boolean;
-}
-
-interface LoggerOptions {
-  console: ConsoleTransportOptions;
-}
-
-const options: LoggerOptions = {
-  console: {
-    level: 'debug',
-    handleExceptions: true,
-    json: false,
-    colorize: true,
-  },
-};
-
 const logger = winston.createLogger({
+  level: 'debug',
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.simple(),
+  ),
   transports: [
-    new winston.transports.Console(options.console),
+    new winston.transports.Console({ handleExceptions: true }),
   ],
   exitOnError: false,
 });

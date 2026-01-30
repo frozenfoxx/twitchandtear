@@ -10,4 +10,5 @@ obs \
   -p \
   --startstreaming \
   --profile Twitch \
+  --collection TwitchAndTear \
   --scene Default

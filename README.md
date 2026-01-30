@@ -12,20 +12,24 @@ Docker Hub: [https://hub.docker.com/r/frozenfoxx/twitchandtear](https://hub.dock
 
 * First person follow spectate
 * Chatbot commands to switch character spectating
-
-Planned:
-* Send messages from the chat to the server
-* Launch scripts via RCON if the server supports it
+* Send messages from Twitch chat into the game
+* Execute console commands via RCON (moderator-only)
 
 # Twitch Commands
 
 * `!nextplayer`: spectate the next player
 * `!prevplayer`: spectate the previous player
+* `!say <message>`: send a message into the game
+* `!rcon <command>`: execute a Zandronum console command (moderators only)
+* `!help`: list available commands
+* `!ripandtear`: responds with "Until it is done!"
+* `!iddqd`: responds with a classic Doom reference
 
 # Requirements
 
 * Docker (for containerized deployment)
 * A Twitch [app](https://dev.twitch.tv/console/apps/create)
+* WAD files required by the server
 * Node.js 18+ (for local development)
 * TypeScript 5.3+ (for local development)
 
@@ -33,28 +37,38 @@ Planned:
 
 ## Docker
 
-```
-docker run -it --rm \
-  -v /path/to/wads:/wads \
-  -e CHANNELS="[space delimited list of channels to connect to]" \
-  -e CLIENT_ID="[Twitch bot client id]" \
-  -e CLIENT_SECRET="[Twitch bot client secret"] \
-  -e OAUTH_TOKEN="[Twitch bot Oauth token]" \
-  -e STREAM_KEY="[Twitch Stream Key]" \
-  -e TARGET_HOST="[Zandronum host]" \
+```bash
+docker run --platform linux/amd64 \
+  -e TARGET_HOST="your.zandronum.server.com" \
+  -e OAUTH_TOKEN="oauth:your_twitch_bot_token" \
+  -e CHANNELS="your_twitch_channel" \
+  -e STREAM_KEY="live_your_twitch_stream_key" \
+  -v /path/to/your/wads:/wads \
+  -p 8080:8080 \
   frozenfoxx/twitchandtear:latest
 ```
 
-* `CHANNELS`: Twitch channels to connect to.
-* `CLIENT_ID`: a Twitch application Client ID.
-* `CLIENT_SECRET`: a Twitch application Client Secret.
-* `OAUTH_TOKEN`: a Twitch stream Oauth 2 token.
-* `STREAM_KEY`: a Twitch stream key.
-* `TARGET_HOST`: Zandronum host to connect to.
+### Required Parameters
 
-## Local Development
+* `-v /path/to/your/wads:/wads`: bind mount a directory containing your WAD files (IWADs and PWADs). Zandronum will search this directory automatically.
+* `TARGET_HOST`: Zandronum server hostname or IP to connect to.
+* `OAUTH_TOKEN`: Twitch bot OAuth token. Generate one at [https://twitchapps.com/tmi/](https://twitchapps.com/tmi/).
+* `CHANNELS`: space-delimited list of Twitch channels for the bot to join.
+* `STREAM_KEY`: Twitch stream key from your [Twitch Dashboard](https://dashboard.twitch.tv/settings/stream).
 
-### Building
+### Optional Parameters
+
+* `TARGET_PORT`: Zandronum server port (default: `10666`).
+* `BOT_USERNAME`: Twitch bot account username (default: `tat-zandronum`).
+* `CLIENT_ID`: Twitch application Client ID.
+* `CLIENT_SECRET`: Twitch application Client Secret.
+* `DOOMWADDIR`: WAD search directory inside the container (default: `/wads`).
+* `-p 8080:8080`: expose the NoVNC web viewer for debugging the display.
+* `-p 5900:5900`: expose VNC for the display.
+
+# Development
+
+## Building
 
 ```bash
 cd twitchandtear
@@ -62,16 +76,22 @@ npm install
 npm run build
 ```
 
-### Running
+## Running
 
 ```bash
 npm start
 ```
 
-### Development Mode
+## Development Mode
 
 ```bash
 npm run dev
+```
+
+## Testing
+
+```bash
+npm test
 ```
 
 ## Project Structure
@@ -79,14 +99,24 @@ npm run dev
 ```
 twitchandtear/
 ├── src/
+│   ├── commands/
+│   │   ├── index.ts              # Command registry and dispatcher
+│   │   └── types.ts              # Command type definitions
 │   ├── config/
-│   │   └── logger.ts          # Winston logger configuration
+│   │   └── logger.ts             # Winston logger configuration
 │   ├── twitch/
-│   │   └── index.ts           # Twitch chat bot client
+│   │   └── index.ts              # Twitch chat bot client
 │   ├── types/
-│   │   └── env.d.ts           # Environment variable type definitions
-│   └── index.ts               # Main application entry point
-├── dist/                      # Compiled JavaScript output
-├── tsconfig.json              # TypeScript configuration
-└── package.json               # Node.js dependencies and scripts
+│   │   └── env.d.ts              # Environment variable type definitions
+│   ├── utils/
+│   │   ├── sanitize.ts           # Input sanitization for game console
+│   │   └── xdotool.ts            # xdotool helper functions
+│   ├── __tests__/
+│   │   ├── commands.test.ts      # Command handler tests
+│   │   └── sanitize.test.ts      # Sanitization tests
+│   └── index.ts                  # Main application entry point
+├── dist/                         # Compiled JavaScript output
+├── tsconfig.json                 # TypeScript configuration
+├── jest.config.ts                # Jest test configuration
+└── package.json                  # Node.js dependencies and scripts
 ```
