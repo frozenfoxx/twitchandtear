@@ -38,7 +38,7 @@ Docker Hub: [https://hub.docker.com/r/frozenfoxx/twitchandtear](https://hub.dock
 ## Docker
 
 ```bash
-docker run --platform linux/amd64 \
+docker run -it --rm --platform linux/amd64 \
   -e TARGET_HOST="your.zandronum.server.com" \
   -e OAUTH_TOKEN="oauth:your_twitch_bot_token" \
   -e CHANNELS="your_twitch_channel" \
