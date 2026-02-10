@@ -14,6 +14,7 @@ Docker Hub: [https://hub.docker.com/r/frozenfoxx/twitchandtear](https://hub.dock
 * Chatbot commands to switch character spectating
 * Send messages from Twitch chat into the game
 * Execute console commands via RCON (moderator-only)
+* Automatic OAuth token refresh (set and forget)
 
 # Twitch Commands
 
@@ -28,43 +29,96 @@ Docker Hub: [https://hub.docker.com/r/frozenfoxx/twitchandtear](https://hub.dock
 # Requirements
 
 * Docker (for containerized deployment)
-* A Twitch [app](https://dev.twitch.tv/console/apps/create)
+* A Twitch [application](https://dev.twitch.tv/console/apps/create)
 * WAD files required by the server
 * Node.js 18+ (for local development)
 * TypeScript 5.3+ (for local development)
 
-# Usage
+# Setup
 
-## Docker
+## Step 1: Create a Twitch Application
+
+1. Go to the [Twitch Developer Console](https://dev.twitch.tv/console/apps/create)
+2. Create a new application with:
+   - **Name**: Your bot name (e.g., "TwitchAndTear")
+   - **OAuth Redirect URL**: `http://localhost:3000`
+   - **Category**: Chat Bot
+3. Note your **Client ID** and generate a **Client Secret**
+
+## Step 2: Get a Refresh Token
+
+Run the authorization helper to get a refresh token. This only needs to be done once.
+
+**Using Docker:**
 
 ```bash
 docker run -it --rm --platform linux/amd64 \
-  -e TARGET_HOST="your.zandronum.server.com" \
-  -e OAUTH_TOKEN="oauth:your_twitch_bot_token" \
+  -e CLIENT_ID="your_client_id" \
+  -e CLIENT_SECRET="your_client_secret" \
+  -p 3000:3000 \
+  frozenfoxx/twitchandtear:latest --auth
+```
+
+**Using local development:**
+
+```bash
+cd twitchandtear
+npm install && npm run build
+CLIENT_ID="your_client_id" CLIENT_SECRET="your_client_secret" npm run auth
+```
+
+This will:
+1. Display a URL to open in your browser
+2. After you authorize, display your `REFRESH_TOKEN`
+3. Show a complete docker run example with your tokens
+
+## Step 3: Run the Bot
+
+Use the refresh token from Step 2:
+
+```bash
+docker run -it --rm --platform linux/amd64 \
+  -e CLIENT_ID="your_client_id" \
+  -e CLIENT_SECRET="your_client_secret" \
+  -e REFRESH_TOKEN="your_refresh_token" \
   -e CHANNELS="your_twitch_channel" \
-  -e STREAM_KEY="live_your_twitch_stream_key" \
+  -e STREAM_KEY="your_stream_key" \
+  -e TARGET_HOST="your.zandronum.server.com" \
   -v /path/to/your/wads:/wads \
-  -p 8080:8080 \
   frozenfoxx/twitchandtear:latest
 ```
 
-### Required Parameters
+The bot will automatically refresh the access token as needed. No manual token management required.
 
-* `-v /path/to/your/wads:/wads`: bind mount a directory containing your WAD files (IWADs and PWADs). Zandronum will search this directory automatically.
-* `TARGET_HOST`: Zandronum server hostname or IP to connect to.
-* `OAUTH_TOKEN`: Twitch bot OAuth token. Generate one at [https://twitchapps.com/tmi/](https://twitchapps.com/tmi/).
-* `CHANNELS`: space-delimited list of Twitch channels for the bot to join.
-* `STREAM_KEY`: Twitch stream key from your [Twitch Dashboard](https://dashboard.twitch.tv/settings/stream).
+# Usage
 
-### Optional Parameters
+## Required Parameters
 
-* `TARGET_PORT`: Zandronum server port (default: `10666`).
-* `BOT_USERNAME`: Twitch bot account username (default: `tat-zandronum`).
-* `CLIENT_ID`: Twitch application Client ID.
-* `CLIENT_SECRET`: Twitch application Client Secret.
-* `DOOMWADDIR`: WAD search directory inside the container (default: `/wads`).
-* `-p 8080:8080`: expose the NoVNC web viewer for debugging the display.
-* `-p 5900:5900`: expose VNC for the display.
+| Parameter | Description |
+|-----------|-------------|
+| `-v /path/to/wads:/wads` | Bind mount containing your WAD files |
+| `TARGET_HOST` | Zandronum server hostname or IP |
+| `CHANNELS` | Space-delimited Twitch channels to join |
+| `STREAM_KEY` | Twitch stream key from your [Dashboard](https://dashboard.twitch.tv/settings/stream) |
+
+**Authentication** (choose one):
+
+| Method | Parameters |
+|--------|------------|
+| Refresh Token (recommended) | `CLIENT_ID`, `CLIENT_SECRET`, `REFRESH_TOKEN` |
+| OAuth Token (legacy) | `OAUTH_TOKEN` |
+
+## Optional Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `TARGET_PORT` | `10666` | Zandronum server port |
+| `TARGET_PASSWORD` | | Password for password-protected servers |
+| `BOT_USERNAME` | `tat-zandronum` | Twitch bot username |
+| `CLIENT_ID` | | Twitch application Client ID |
+| `DOOMWADDIR` | `/wads` | WAD search directory in container |
+| `-p 8080:8080` | | Expose NoVNC web viewer for debugging |
+| `-p 5900:5900` | | Expose VNC for the display |
 
 # Development
 
@@ -80,6 +134,12 @@ npm run build
 
 ```bash
 npm start
+```
+
+## Authorization (for development)
+
+```bash
+CLIENT_ID=xxx CLIENT_SECRET=xxx npm run auth
 ```
 
 ## Development Mode
@@ -105,6 +165,7 @@ twitchandtear/
 │   ├── config/
 │   │   └── logger.ts             # Winston logger configuration
 │   ├── twitch/
+│   │   ├── auth.ts               # OAuth token management
 │   │   └── index.ts              # Twitch chat bot client
 │   ├── types/
 │   │   └── env.d.ts              # Environment variable type definitions
@@ -114,6 +175,7 @@ twitchandtear/
 │   ├── __tests__/
 │   │   ├── commands.test.ts      # Command handler tests
 │   │   └── sanitize.test.ts      # Sanitization tests
+│   ├── auth-cli.ts               # Authorization CLI tool
 │   └── index.ts                  # Main application entry point
 ├── dist/                         # Compiled JavaScript output
 ├── tsconfig.json                 # TypeScript configuration

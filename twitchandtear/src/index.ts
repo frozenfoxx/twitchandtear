@@ -1,12 +1,23 @@
 import logger from './config/logger';
-import { streamChat } from './twitch';
+import { createStreamChat } from './twitch';
 import { handleMessage } from './commands';
 
-logger.info('Connecting to Twitch...');
+async function main(): Promise<void> {
+  logger.info('Connecting to Twitch...');
 
-streamChat.on('message', (channel, tags, message, self) => {
-  if (self) return;
-  handleMessage(streamChat, channel, tags, message);
-});
+  try {
+    const streamChat = await createStreamChat();
 
-logger.info('TwitchAndTear bot is running...');
+    streamChat.on('message', (channel, tags, message, self) => {
+      if (self) return;
+      handleMessage(streamChat, channel, tags, message);
+    });
+
+    logger.info('TwitchAndTear bot is running...');
+  } catch (error) {
+    logger.error('Failed to start bot:', error);
+    process.exit(1);
+  }
+}
+
+main();

@@ -4,6 +4,14 @@
 DOOMWADDIR=${DOOMWADDIR:-'/wads'}
 TARGET_HOST=${TARGET_HOST:-'localhost'}
 TARGET_PORT=${TARGET_PORT:-'10666'}
+TARGET_PASSWORD=${TARGET_PASSWORD:-''}
+
+# Check for auth mode
+if [ "$1" = "--auth" ] || [ "$1" = "auth" ]; then
+  echo "Running in authorization mode..."
+  cd /app
+  exec npm run auth
+fi
 
 # Set up XDG_RUNTIME_DIR for PulseAudio
 export XDG_RUNTIME_DIR="/tmp/runtime-twitchandtear"
@@ -34,9 +42,15 @@ do
 done
 echo "PulseAudio is running."
 
+## Build Zandronum command
+ZANDRONUM_CMD="zandronum -connect ${TARGET_HOST}:${TARGET_PORT}"
+if [ -n "${TARGET_PASSWORD}" ]; then
+  ZANDRONUM_CMD="${ZANDRONUM_CMD} +cl_password ${TARGET_PASSWORD}"
+fi
+
 ## Execute Zandronum
 echo "Launching Zandronum, connecting to ${TARGET_HOST}:${TARGET_PORT}..."
-DISPLAY=':0' DOOMWADDIR=${DOOMWADDIR} zandronum -connect "${TARGET_HOST}:${TARGET_PORT}" &
+DISPLAY=':0' DOOMWADDIR=${DOOMWADDIR} ${ZANDRONUM_CMD} &
 
 ## Execute OBS
 echo "Launching OBS..."
