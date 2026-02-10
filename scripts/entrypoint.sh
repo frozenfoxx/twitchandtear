@@ -46,21 +46,25 @@ start_supervisor()
 }
 
 ## Wait for Xvfb to start with timeout
+## Uses X server lock file as the most reliable indicator
 wait_for_xvfb()
 {
   echo "Waiting for Xvfb to start..."
   local counter=0
 
-  until pidof Xvfb > /dev/null 2>&1; do
+  # Check for X server lock file which indicates display :0 is active
+  until [ -f /tmp/.X0-lock ]; do
     sleep 1
     counter=$((counter + 1))
     if [ $counter -ge $TIMEOUT ]; then
       echo "ERROR: Xvfb failed to start within ${TIMEOUT} seconds"
+      echo "Checking supervisor status..."
+      supervisorctl status 2>/dev/null || true
       exit 1
     fi
   done
 
-  echo "Xvfb is running."
+  echo "Xvfb is running (display :0 active)."
 }
 
 ## Wait for PulseAudio socket with timeout
