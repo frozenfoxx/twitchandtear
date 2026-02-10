@@ -41,9 +41,11 @@ Docker Hub: [https://hub.docker.com/r/frozenfoxx/twitchandtear](https://hub.dock
 1. Go to the [Twitch Developer Console](https://dev.twitch.tv/console/apps/create)
 2. Create a new application with:
    - **Name**: Your bot name (e.g., "TwitchAndTear")
-   - **OAuth Redirect URL**: `http://localhost:3000`
+   - **OAuth Redirect URL**: `http://localhost:3000` (must include the port!)
    - **Category**: Chat Bot
 3. Note your **Client ID** and generate a **Client Secret**
+
+> **Important**: The OAuth Redirect URL must be exactly `http://localhost:3000` including the port. If you omit the port or use a different one, you'll get a `redirect_mismatch` error during authorization.
 
 ## Step 2: Get a Refresh Token
 
