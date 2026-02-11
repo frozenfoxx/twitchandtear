@@ -103,7 +103,7 @@ launch_zandronum()
   fi
 
   echo "Launching Zandronum: ${cmd}"
-  DISPLAY=':0' DOOMWADDIR="${DOOMWADDIR}" ${cmd} 2>&1 &
+  DISPLAY=':0' DOOMWADDIR="${DOOMWADDIR}" ${cmd} 2>&1 | tee /home/twitchandtear/zandronum.log &
   ZANDRONUM_PID=$!
   echo "Zandronum started with PID ${ZANDRONUM_PID}"
 }
@@ -126,14 +126,17 @@ verify_zandronum()
 launch_obs()
 {
   echo "Launching OBS..."
-  DISPLAY=':0' /usr/local/bin/obs.sh 2>&1 &
+  DISPLAY=':0' /usr/local/bin/obs.sh 2>&1 | tee /home/twitchandtear/obs.log &
   OBS_PID=$!
   echo "OBS started with PID ${OBS_PID}"
 
   # Wait for OBS window to appear, then send it to the back
   sleep 3
   echo "Bringing Zandronum to foreground..."
-  DISPLAY=':0' xdotool search --name "zandronum" windowactivate --sync 2>/dev/null || true
+  # Try multiple methods to find and activate Zandronum window
+  DISPLAY=':0' xdotool search --class "Zandronum" windowactivate 2>/dev/null || \
+  DISPLAY=':0' xdotool search --name "Zandronum" windowactivate 2>/dev/null || \
+  DISPLAY=':0' xdotool search --name "DOOM" windowactivate 2>/dev/null || true
 }
 
 ## Launch the TwitchAndTear bot
