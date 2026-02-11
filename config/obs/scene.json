@@ -76,8 +76,9 @@
       "push-to-talk-delay": 0,
       "settings": {
         "advanced": true,
-        "server": ":0",
-        "show_cursor": false
+        "server": ":0.0",
+        "show_cursor": false,
+        "capture_cursor": false
       },
       "sync": 0,
       "versioned_id": "xshm_input",
