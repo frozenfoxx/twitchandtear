@@ -129,6 +129,11 @@ launch_obs()
   DISPLAY=':0' /usr/local/bin/obs.sh 2>&1 &
   OBS_PID=$!
   echo "OBS started with PID ${OBS_PID}"
+
+  # Wait for OBS window to appear, then send it to the back
+  sleep 3
+  echo "Bringing Zandronum to foreground..."
+  DISPLAY=':0' xdotool search --name "zandronum" windowactivate --sync 2>/dev/null || true
 }
 
 ## Launch the TwitchAndTear bot
