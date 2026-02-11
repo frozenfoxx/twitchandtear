@@ -5,6 +5,7 @@
 # Variables
 ZANDRONUM_VERSION=${ZANDRONUM_VERSION:-'3.2.1'}
 ZANDRONUM_URL=${ZANDRONUM_URL:-"https://zandronum.com/downloads/zandronum${ZANDRONUM_VERSION}-linux-x86_64.tar.bz2"}
+FMOD_URL=${FMOD_URL:-'https://zandronum.com/essentials/fmod/fmodapi44464linux.tar.gz'}
 INSTALL_DIR=${INSTALL_DIR:-'/opt/zandronum'}
 
 # Functions
@@ -17,6 +18,21 @@ usage()
   echo "    ZANDRONUM_VERSION     version to install (default: '3.2.1')"
   echo "    ZANDRONUM_URL         download URL (default: auto-generated from version)"
   echo "    INSTALL_DIR           installation directory (default: '/opt/zandronum')"
+}
+
+## Install FMOD audio library (required by Zandronum)
+install_fmod()
+{
+  echo "Downloading FMOD audio library..."
+  wget -q -O /tmp/fmod.tar.gz "${FMOD_URL}"
+  tar -xzf /tmp/fmod.tar.gz -C /tmp
+
+  # Install the 64-bit FMOD library to system lib directory
+  cp /tmp/fmodapi44464linux/api/lib/libfmodex64-4.44.64.so /usr/lib/
+  ldconfig
+
+  rm -rf /tmp/fmod.tar.gz /tmp/fmodapi44464linux
+  echo "FMOD audio library installed"
 }
 
 ## Install Zandronum
@@ -50,4 +66,5 @@ while [[ "$1" != "" ]]; do
   shift
 done
 
+install_fmod
 install_zandronum
