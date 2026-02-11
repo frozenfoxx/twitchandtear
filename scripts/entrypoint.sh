@@ -35,9 +35,6 @@ setup_environment()
 
   # Ensure PulseAudio socket is reachable
   export PULSE_SERVER="unix:/tmp/pulseaudio.socket"
-
-  # Set up D-Bus session bus for OBS
-  export DBUS_SESSION_BUS_ADDRESS="unix:path=/tmp/dbus-session.socket"
 }
 
 ## Start supervisor daemon

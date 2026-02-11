@@ -9,7 +9,6 @@ LABEL maintainer="FrozenFOXX <frozenfoxx@cultoffoxx.net>"
 WORKDIR /app
 ENV APPDIR="/usr/src/app" \
   APP_DEPS=" \
-    dbus-x11 \
     gettext-base \
     libglu1-mesa \
     libgtk2.0-0t64 \
