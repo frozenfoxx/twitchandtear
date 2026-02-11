@@ -5,14 +5,14 @@ FROM ubuntu:24.04
 LABEL maintainer="FrozenFOXX <frozenfoxx@cultoffoxx.net>"
 
 # Variables
-# NOTE: libsdl1.2-compat-shim provides libSDL-1.2.so.0 required by the Zandronum binary tarball
+# NOTE: libsdl1.2debian provides libSDL-1.2.so.0 required by the Zandronum binary tarball
 WORKDIR /app
 ENV APPDIR="/usr/src/app" \
   APP_DEPS=" \
     gettext-base \
     libglu1-mesa \
     libgtk2.0-0t64 \
-    libsdl1.2-compat-shim \
+    libsdl1.2debian \
     net-tools \
     novnc \
     obs-studio \
