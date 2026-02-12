@@ -15,14 +15,20 @@ TIMEOUT=${TIMEOUT:-30}
 # Functions
 # =============================================================================
 
+## Log helper function
+log()
+{
+  echo "$(date '+%Y-%m-%d %H:%M:%S') - ENTRYPOINT - $1"
+}
+
 ## Display startup banner with configuration
 show_banner()
 {
-  echo "=== TwitchAndTear Starting ==="
-  echo "TARGET_HOST: ${TARGET_HOST}"
-  echo "TARGET_PORT: ${TARGET_PORT}"
-  echo "DOOMWADDIR: ${DOOMWADDIR}"
-  echo "CHANNELS: ${CHANNELS}"
+  log "=== TwitchAndTear Starting ==="
+  log "TARGET_HOST: ${TARGET_HOST}"
+  log "TARGET_PORT: ${TARGET_PORT}"
+  log "DOOMWADDIR: ${DOOMWADDIR}"
+  log "CHANNELS: ${CHANNELS}"
 }
 
 ## Set up runtime environment
@@ -40,7 +46,7 @@ setup_environment()
 ## Start supervisor daemon
 start_supervisor()
 {
-  echo "Starting supervisor..."
+  log "Starting supervisor..."
   /usr/bin/supervisord -c /etc/supervisor/supervisord.conf &
   SUPERVISOR_PID=$!
 }
@@ -49,7 +55,7 @@ start_supervisor()
 ## Uses X server lock file as the most reliable indicator
 wait_for_xvfb()
 {
-  echo "Waiting for Xvfb to start..."
+  log "Waiting for Xvfb to start..."
   local counter=0
 
   # Check for X server lock file which indicates display :0 is active
@@ -57,40 +63,49 @@ wait_for_xvfb()
     sleep 1
     counter=$((counter + 1))
     if [ $counter -ge $TIMEOUT ]; then
-      echo "ERROR: Xvfb failed to start within ${TIMEOUT} seconds"
-      echo "Checking supervisor status..."
+      log "ERROR: Xvfb failed to start within ${TIMEOUT} seconds"
+      log "Checking supervisor status..."
       supervisorctl status 2>/dev/null || true
       exit 1
     fi
   done
 
-  echo "Xvfb is running (display :0 active)."
+  log "Xvfb is running (display :0 active)."
 }
 
 ## Wait for PulseAudio socket with timeout
 wait_for_pulseaudio()
 {
-  echo "Waiting for PulseAudio socket..."
+  log "Waiting for PulseAudio socket..."
   local counter=0
 
   until [ -S /tmp/pulseaudio.socket ]; do
     sleep 1
     counter=$((counter + 1))
     if [ $counter -ge $TIMEOUT ]; then
-      echo "WARNING: PulseAudio socket not found after ${TIMEOUT} seconds, continuing without audio"
+      log "WARNING: PulseAudio socket not found after ${TIMEOUT} seconds, continuing without audio"
       return 1
     fi
   done
 
-  echo "PulseAudio is running."
+  log "PulseAudio is running."
   return 0
 }
 
 ## Show PulseAudio logs if socket not available
 show_pulseaudio_logs()
 {
-  echo "PulseAudio socket not available, checking logs..."
-  cat /home/twitchandtear/pulseaudio.log 2>/dev/null || echo "No pulseaudio log found"
+  log "PulseAudio socket not available, checking logs..."
+  cat /home/twitchandtear/pulseaudio.log 2>/dev/null | log_with_prefix "PULSEAUDIO" || log "No pulseaudio log found"
+}
+
+## Format log output with timestamp and source
+log_with_prefix()
+{
+  local source="$1"
+  while IFS= read -r line; do
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - ${source} - ${line}"
+  done
 }
 
 ## Launch Zandronum client
@@ -102,10 +117,10 @@ launch_zandronum()
     cmd="${cmd} +cl_password ${TARGET_PASSWORD}"
   fi
 
-  echo "Launching Zandronum: ${cmd}"
-  DISPLAY=':0' DOOMWADDIR="${DOOMWADDIR}" ${cmd} 2>&1 | tee /home/twitchandtear/zandronum.log &
+  log "Launching Zandronum: ${cmd}"
+  DISPLAY=':0' DOOMWADDIR="${DOOMWADDIR}" ${cmd} 2>&1 | log_with_prefix "ZANDRONUM" | tee /home/twitchandtear/zandronum.log &
   ZANDRONUM_PID=$!
-  echo "Zandronum started with PID ${ZANDRONUM_PID}"
+  log "Zandronum started with PID ${ZANDRONUM_PID}"
 }
 
 ## Verify Zandronum is still running
@@ -114,8 +129,8 @@ verify_zandronum()
   sleep 2
 
   if ! kill -0 ${ZANDRONUM_PID} 2>/dev/null; then
-    echo "ERROR: Zandronum exited immediately. Check that WADs are available in ${DOOMWADDIR}"
-    ls -la "${DOOMWADDIR}" 2>/dev/null || echo "WAD directory not accessible"
+    log "ERROR: Zandronum exited immediately. Check that WADs are available in ${DOOMWADDIR}"
+    ls -la "${DOOMWADDIR}" 2>/dev/null || log "WAD directory not accessible"
     return 1
   fi
 
@@ -125,14 +140,14 @@ verify_zandronum()
 ## Launch OBS Studio
 launch_obs()
 {
-  echo "Launching OBS..."
-  DISPLAY=':0' /usr/local/bin/obs.sh 2>&1 | tee /home/twitchandtear/obs.log &
+  log "Launching OBS..."
+  DISPLAY=':0' /usr/local/bin/obs.sh 2>&1 | log_with_prefix "OBS" | tee /home/twitchandtear/obs.log &
   OBS_PID=$!
-  echo "OBS started with PID ${OBS_PID}"
+  log "OBS started with PID ${OBS_PID}"
 
   # Wait for OBS window to appear, then send it to the back
   sleep 3
-  echo "Bringing Zandronum to foreground..."
+  log "Bringing Zandronum to foreground..."
   # Try multiple methods to find and activate Zandronum window
   DISPLAY=':0' xdotool search --class "Zandronum" windowactivate 2>/dev/null || \
   DISPLAY=':0' xdotool search --name "Zandronum" windowactivate 2>/dev/null || \
@@ -142,7 +157,7 @@ launch_obs()
 ## Launch the TwitchAndTear bot
 launch_bot()
 {
-  echo "Starting TwitchAndTear bot..."
+  log "Starting TwitchAndTear bot..."
   cd /app
   exec npm start -- "$@"
 }
@@ -150,7 +165,7 @@ launch_bot()
 ## Run authorization mode
 run_auth_mode()
 {
-  echo "Running in authorization mode..."
+  log "Running in authorization mode..."
   cd /app
   exec npm run auth
 }
